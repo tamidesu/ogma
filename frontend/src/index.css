@@ -114,6 +114,11 @@
   border-radius: 8px;
 }
 
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* Floating particles */
 @keyframes particleFloat {
   0%,100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
@@ -145,4 +150,8 @@
 @keyframes timerBlink {
   0%,100% { opacity: 1; }
   50%     { opacity: 0.25; }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }

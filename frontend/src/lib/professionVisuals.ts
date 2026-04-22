@@ -23,6 +23,7 @@ export interface ProfessionCharacter {
 
 export interface ProfessionVisuals {
   image: string
+  imageFilter?: string
   gradient: string
   accent: string
   tagline: string
@@ -36,7 +37,7 @@ export interface ProfessionVisuals {
 
 const MAP: Record<string, ProfessionVisuals> = {
   doctor: {
-    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=900&q=85&fit=crop',
+    image: '/images/doctor_bg.png',
     gradient: 'linear-gradient(135deg,#7c3aed 0%,#06b6d4 100%)',
     accent: '#06b6d4',
     tagline: 'Өмір мен өлім арасындағы шешімдер',
@@ -58,6 +59,7 @@ const MAP: Record<string, ProfessionVisuals> = {
 
   lawyer: {
     image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=900&q=85&fit=crop',
+    imageFilter: 'brightness(0.45) saturate(1.8) hue-rotate(240deg)',
     gradient: 'linear-gradient(135deg,#7c3aed 0%,#f59e0b 100%)',
     accent: '#f59e0b',
     tagline: 'Әділдік пен стратегия арасында',
@@ -79,6 +81,7 @@ const MAP: Record<string, ProfessionVisuals> = {
 
   business_manager: {
     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=85&fit=crop',
+    imageFilter: 'brightness(0.45) saturate(1.8) hue-rotate(120deg)',
     gradient: 'linear-gradient(135deg,#7c3aed 0%,#10b981 100%)',
     accent: '#10b981',
     tagline: 'Командаңызды жаңа деңгейге жеткізіңіз',
@@ -99,7 +102,7 @@ const MAP: Record<string, ProfessionVisuals> = {
   },
 
   software_engineer: {
-    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=900&q=85&fit=crop',
+    image: '/images/programmer_bg.png',
     gradient: 'linear-gradient(135deg,#7c3aed 0%,#3b82f6 100%)',
     accent: '#3b82f6',
     tagline: 'Код — сіздің шешіміңіз',

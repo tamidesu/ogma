@@ -63,7 +63,9 @@ class ProgressService:
     async def get_progress_summary(self, user_id: UUID, db: AsyncSession) -> dict:
         profile = await skill_repo.get_profile_with_scores(user_id, db)
         if not profile:
-            return {"level": 1, "xp_total": 0, "skill_scores": [], "completed_scenarios": []}
+            from app.simulation.metrics import MetricsCalculator
+            calc = MetricsCalculator()
+            return {"level": 1, "xp_total": 0, "xp_to_next_level": calc.xp_to_next_level(0, 1), "skill_scores": [], "scenarios_completed": 0}
 
         completed = await skill_repo.list_completed(user_id, db)
 

@@ -40,7 +40,7 @@ export default function ScenariosPage() {
     try {
       const session = await sessionsApi.create({ scenario_id: scenarioId })
       toast('Сессия жасалды!', 'success')
-      navigate(`/session/${session.session_id}`)
+      navigate(`/session/${session.session_id}?professionId=${professionId}`)
     } catch (err) {
       toast(err instanceof Error ? err.message : 'Сессия жасалмады', 'error')
     } finally {

@@ -9,6 +9,8 @@ interface Props {
   decision: DecisionResponse
   characters: ProfessionCharacter[]
   onContinue: () => void
+  onShowFeedback?: () => void
+  feedbackLoading?: boolean
 }
 
 type ConsequenceType = 'excellent' | 'good' | 'warn' | 'critical'
@@ -58,7 +60,7 @@ const TYPE_ICON: Record<ConsequenceType, string> = {
   critical:  '💀',
 }
 
-export default function ConsequenceOverlay({ decision, characters, onContinue }: Props) {
+export default function ConsequenceOverlay({ decision, characters, onContinue, onShowFeedback, feedbackLoading }: Props) {
   const [show, setShow] = useState(false)
   useEffect(() => { setTimeout(() => setShow(true), 80) }, [])
 
@@ -221,6 +223,41 @@ export default function ConsequenceOverlay({ decision, characters, onContinue }:
           >
             {decision.is_terminal ? 'Нәтижелерді көру 🏆' : 'Жалғастыру →'}
           </button>
+
+          {/* AI Feedback button */}
+          {onShowFeedback && (
+            <button
+              onClick={onShowFeedback}
+              style={{
+                width: '100%', padding: '12px', borderRadius: 14, fontSize: 14, fontWeight: 600,
+                marginTop: 10,
+                background: 'rgba(124,58,237,0.15)', color: '#c4b5fd',
+                border: '1px solid rgba(124,58,237,0.35)', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = 'rgba(124,58,237,0.25)'
+                e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = 'rgba(124,58,237,0.15)'
+                e.currentTarget.style.borderColor = 'rgba(124,58,237,0.35)'
+              }}
+            >
+              {feedbackLoading ? (
+                <>
+                  <svg style={{ animation: 'spin 1s linear infinite', width: 16, height: 16 }} fill="none" viewBox="0 0 24 24">
+                    <circle style={{ opacity: 0.25 }} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path style={{ opacity: 0.75 }} fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                  </svg>
+                  AI талдауы жасалуда...
+                </>
+              ) : (
+                <>🧠 AI Талдауын көру</>
+              )}
+            </button>
+          )}
         </div>
       </motion.div>
     </div>

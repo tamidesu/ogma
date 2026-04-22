@@ -57,7 +57,7 @@ export default function ProfessionCard({ profession, index, onSelect }: Props) {
             onError={() => setImgOk(false)}
             animate={{ scale: hovered ? 1.08 : 1 }}
             transition={{ duration: 0.5 }}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block', filter: v.imageFilter }}
           />
         ) : (
           <div style={{ width: '100%', height: '100%', background: v.gradient }} />
@@ -74,7 +74,6 @@ export default function ProfessionCard({ profession, index, onSelect }: Props) {
           <Badge variant={diffVariant(diffLabel)}>{diffLabel}</Badge>
         </div>
 
-        {/* Icon */}
         <div style={{
           position: 'absolute', bottom: 16, left: 16,
           width: 46, height: 46, borderRadius: 13,
@@ -82,7 +81,7 @@ export default function ProfessionCard({ profession, index, onSelect }: Props) {
           border: `1px solid ${v.accent}45`,
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22,
         }}>
-          {profession.icon_key ?? '⭐'}
+          {{ stethoscope: '🩺', code: '💻', scales: '⚖️', chart: '📊' }[profession.icon_key ?? ''] ?? profession.icon_key ?? '⭐'}
         </div>
       </div>
 
