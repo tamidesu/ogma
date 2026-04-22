@@ -1,0 +1,432 @@
+{
+  "profession": {
+    "slug": "doctor",
+    "name": "Doctor",
+    "description": "Face the pressures of clinical medicine: emergency triage, diagnostic uncertainty, ethical dilemmas, and patient communication under stress.",
+    "icon_key": "stethoscope",
+    "color_hex": "#38bdf8",
+    "difficulty_label": "Hard"
+  },
+  "scenarios": [
+    {
+      "slug": "emergency_triage",
+      "title": "Mass Casualty Triage",
+      "description": "A multi-vehicle accident brings 8 patients to your ER simultaneously. You are the attending physician in charge. Resources are limited.",
+      "difficulty": 5,
+      "estimated_steps": 4,
+      "tags": ["emergency", "triage", "crisis"],
+      "initial_metrics": {
+        "patient_stability": 40,
+        "diagnosis_accuracy": 50,
+        "team_trust": 65,
+        "score": 0
+      },
+      "initial_state": {
+        "mass_casualty_active": true,
+        "additional_staff_called": false,
+        "triage_protocol_activated": false,
+        "critical_patient_stabilised": false
+      },
+      "steps": [
+        {
+          "step_key": "arrival_chaos",
+          "title": "8 Patients, 2 Doctors",
+          "narrative": "The ambulances pull in simultaneously. Patient 1: unconscious, penetrating chest trauma. Patient 2: alert, femur fracture. Patient 3: burns to 40% BSA, conscious. Five more behind them. Your ER has 2 attending physicians. The nurses look to you.",
+          "step_type": "decision",
+          "sort_order": 1,
+          "decision_options": [
+            {
+              "option_key": "activate_protocol",
+              "label": "Immediately activate the mass casualty protocol and assign triage roles",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_trust", "delta": 20 },
+                { "type": "metric_delta", "metric": "patient_stability", "delta": 15 },
+                { "type": "state_set", "key": "triage_protocol_activated", "value": true },
+                { "type": "skill_xp", "skill": "crisis_management", "xp": 35 }
+              ],
+              "preconditions": [],
+              "next_step_key": "critical_decision"
+            },
+            {
+              "option_key": "focus_chest_trauma",
+              "label": "Go directly to the chest trauma patient — most likely to die without immediate intervention",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": 20 },
+                { "type": "metric_delta", "metric": "team_trust", "delta": -10 },
+                { "type": "state_set", "key": "critical_patient_stabilised", "value": true },
+                { "type": "skill_xp", "skill": "clinical_judgment", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "critical_decision"
+            },
+            {
+              "option_key": "call_backup_first",
+              "label": "Spend 2 minutes calling for additional staff before treating anyone",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": -10 },
+                { "type": "state_set", "key": "additional_staff_called", "value": true },
+                { "type": "skill_xp", "skill": "resource_management", "xp": 20 }
+              ],
+              "preconditions": [],
+              "next_step_key": "critical_decision"
+            }
+          ]
+        },
+        {
+          "step_key": "critical_decision",
+          "title": "The Impossible Choice",
+          "narrative": "Patient 1 (chest trauma) is coding. Patient 3 (burns) is showing signs of airway compromise — if you don't intubate in the next few minutes, they'll lose the airway. You can only be in one place. The other doctor is tied up with a paediatric case.",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "intubate_burns",
+              "label": "Intubate the burns patient — airway compromise is immediate and preventable",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": 10 },
+                { "type": "metric_delta", "metric": "diagnosis_accuracy", "delta": 15 },
+                { "type": "skill_xp", "skill": "clinical_judgment", "xp": 30 }
+              ],
+              "preconditions": [],
+              "next_step_key": "resource_allocation"
+            },
+            {
+              "option_key": "cpr_chest_trauma",
+              "label": "Run the code on the chest trauma patient — CPR has the highest survival potential",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": 5 },
+                { "type": "metric_delta", "metric": "team_trust", "delta": 10 },
+                { "type": "skill_xp", "skill": "crisis_management", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "resource_allocation"
+            },
+            {
+              "option_key": "delegate_one",
+              "label": "Delegate one task to your senior nurse with real-time verbal guidance",
+              "description": "Only viable if the team has been properly briefed.",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_trust", "delta": 20 },
+                { "type": "metric_delta", "metric": "patient_stability", "delta": 8 },
+                { "type": "skill_xp", "skill": "teamwork", "xp": 35 }
+              ],
+              "preconditions": [
+                { "type": "state_is_true", "key": "triage_protocol_activated" }
+              ],
+              "next_step_key": "resource_allocation"
+            }
+          ]
+        },
+        {
+          "step_key": "resource_allocation",
+          "title": "The Blood Bank Calls",
+          "narrative": "The blood bank has 4 units of O-negative left. Two of your critical patients need transfusions. Your registrar asks: who gets the blood?",
+          "step_type": "decision",
+          "sort_order": 3,
+          "decision_options": [
+            {
+              "option_key": "highest_survival",
+              "label": "Allocate to the patient with the highest survival probability",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": 15 },
+                { "type": "metric_delta", "metric": "diagnosis_accuracy", "delta": 10 },
+                { "type": "skill_xp", "skill": "clinical_judgment", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "triage_debrief"
+            },
+            {
+              "option_key": "split_equally",
+              "label": "Split 2 units to each — give both a chance",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": 5 },
+                { "type": "metric_delta", "metric": "team_trust", "delta": 5 },
+                { "type": "skill_xp", "skill": "ethics", "xp": 20 }
+              ],
+              "preconditions": [],
+              "next_step_key": "triage_debrief"
+            },
+            {
+              "option_key": "consult_ethics",
+              "label": "Call the on-call ethics consultant before deciding — even though it takes 10 minutes",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": -5 },
+                { "type": "metric_delta", "metric": "diagnosis_accuracy", "delta": 20 },
+                { "type": "skill_xp", "skill": "ethics", "xp": 40 }
+              ],
+              "preconditions": [],
+              "next_step_key": "triage_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "triage_debrief",
+          "title": "The Shift Ends",
+          "narrative": "Six of eight patients survived. The two who didn't were non-survivable on arrival. Your department head reviews your decisions. The decisions you made under pressure reveal the kind of doctor you are.",
+          "step_type": "terminal",
+          "sort_order": 4,
+          "decision_options": []
+        }
+      ],
+      "transitions": []
+    },
+    {
+      "slug": "diagnosis_dilemma",
+      "title": "The Uncertain Diagnosis",
+      "description": "A 45-year-old patient presents with ambiguous symptoms that could be benign — or could be early-stage cancer. The right path isn't obvious, and every choice has consequences.",
+      "difficulty": 3,
+      "estimated_steps": 4,
+      "tags": ["diagnosis", "patient-communication", "ethics"],
+      "initial_metrics": {
+        "patient_stability": 75,
+        "diagnosis_accuracy": 40,
+        "team_trust": 70,
+        "score": 0
+      },
+      "initial_state": {
+        "biopsy_ordered": false,
+        "patient_informed": false,
+        "specialist_consulted": false,
+        "watchful_waiting": false
+      },
+      "steps": [
+        {
+          "step_key": "initial_presentation",
+          "title": "Ambiguous Findings",
+          "narrative": "Elena, 45, comes in with fatigue, a 3kg weight loss over 2 months, and a palpable lymph node in her neck. CBC is borderline. It could be viral, stress — or lymphoma. She has two kids and a job interview tomorrow.",
+          "step_type": "decision",
+          "sort_order": 1,
+          "decision_options": [
+            {
+              "option_key": "order_biopsy",
+              "label": "Order a biopsy immediately — the lymph node needs tissue diagnosis",
+              "effects": [
+                { "type": "metric_delta", "metric": "diagnosis_accuracy", "delta": 30 },
+                { "type": "metric_delta", "metric": "patient_stability", "delta": -10 },
+                { "type": "state_set", "key": "biopsy_ordered", "value": true },
+                { "type": "skill_xp", "skill": "diagnostic_rigor", "xp": 30 }
+              ],
+              "preconditions": [],
+              "next_step_key": "biopsy_results"
+            },
+            {
+              "option_key": "watchful_waiting",
+              "label": "Prescribe watchful waiting: recheck in 3 weeks",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": 5 },
+                { "type": "metric_delta", "metric": "diagnosis_accuracy", "delta": -10 },
+                { "type": "state_set", "key": "watchful_waiting", "value": true },
+                { "type": "skill_xp", "skill": "clinical_judgment", "xp": 15 }
+              ],
+              "preconditions": [],
+              "next_step_key": "follow_up"
+            },
+            {
+              "option_key": "specialist_referral",
+              "label": "Refer to haematology immediately for specialist opinion",
+              "effects": [
+                { "type": "metric_delta", "metric": "diagnosis_accuracy", "delta": 20 },
+                { "type": "state_set", "key": "specialist_consulted", "value": true },
+                { "type": "skill_xp", "skill": "clinical_judgment", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "biopsy_results"
+            }
+          ]
+        },
+        {
+          "step_key": "biopsy_results",
+          "title": "The Results Are Back",
+          "narrative": "The biopsy confirms early-stage Hodgkin lymphoma — highly treatable, 95% 5-year survival at this stage. But Elena doesn't know yet. You have to tell her today.",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "tell_directly",
+              "label": "Tell her directly in your office, with the oncology nurse present",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": -15 },
+                { "type": "metric_delta", "metric": "team_trust", "delta": 15 },
+                { "type": "state_set", "key": "patient_informed", "value": true },
+                { "type": "skill_xp", "skill": "patient_communication", "xp": 35 }
+              ],
+              "preconditions": [],
+              "next_step_key": "treatment_plan"
+            },
+            {
+              "option_key": "soften_first",
+              "label": "Start with the good news — high survival rate — before delivering the diagnosis",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": -5 },
+                { "type": "metric_delta", "metric": "team_trust", "delta": 10 },
+                { "type": "state_set", "key": "patient_informed", "value": true },
+                { "type": "skill_xp", "skill": "patient_communication", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "treatment_plan"
+            }
+          ]
+        },
+        {
+          "step_key": "follow_up",
+          "title": "Three Weeks Later",
+          "narrative": "Elena returns. The node has grown. She looks scared. You now know you should have acted sooner. The same biopsy is now more urgent.",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "acknowledge_delay",
+              "label": "Acknowledge the delay honestly to Elena and order the biopsy immediately",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": -5 },
+                { "type": "metric_delta", "metric": "team_trust", "delta": 10 },
+                { "type": "state_set", "key": "biopsy_ordered", "value": true },
+                { "type": "skill_xp", "skill": "ethics", "xp": 30 }
+              ],
+              "preconditions": [],
+              "next_step_key": "biopsy_results"
+            },
+            {
+              "option_key": "proceed_silently",
+              "label": "Order the biopsy without addressing the delay",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": -10 },
+                { "type": "metric_delta", "metric": "team_trust", "delta": -10 },
+                { "type": "state_set", "key": "biopsy_ordered", "value": true },
+                { "type": "skill_xp", "skill": "diagnostic_rigor", "xp": 10 }
+              ],
+              "preconditions": [],
+              "next_step_key": "biopsy_results"
+            }
+          ]
+        },
+        {
+          "step_key": "treatment_plan",
+          "title": "Charting the Path Forward",
+          "narrative": "Elena has processed the news. She trusts you. Now she asks: 'What do we do next, and how bad is this really?' Your answer will define her treatment journey.",
+          "step_type": "terminal",
+          "sort_order": 4,
+          "decision_options": []
+        }
+      ],
+      "transitions": []
+    },
+    {
+      "slug": "patient_refuses_treatment",
+      "title": "When the Patient Says No",
+      "description": "Your patient has a treatable but serious condition and is refusing treatment for religious reasons. You must navigate autonomy, ethics, and your medical duty.",
+      "difficulty": 4,
+      "estimated_steps": 3,
+      "tags": ["ethics", "patient-autonomy", "communication"],
+      "initial_metrics": {
+        "patient_stability": 60,
+        "diagnosis_accuracy": 80,
+        "team_trust": 70,
+        "score": 0
+      },
+      "initial_state": {
+        "patient_capacity_assessed": false,
+        "ethics_committee_consulted": false,
+        "family_involved": false,
+        "patient_decision_respected": false
+      },
+      "steps": [
+        {
+          "step_key": "refusal",
+          "title": "I Won't Accept the Transfusion",
+          "narrative": "Ahmed, 52, is a Jehovah's Witness. He has internal bleeding post-surgery that will be fatal without a blood transfusion. He is alert, oriented, and clearly states he refuses. He hands you a pre-written advance directive. His wife is in the waiting room.",
+          "step_type": "decision",
+          "sort_order": 1,
+          "decision_options": [
+            {
+              "option_key": "assess_capacity",
+              "label": "Formally assess his decision-making capacity before doing anything else",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_trust", "delta": 15 },
+                { "type": "metric_delta", "metric": "diagnosis_accuracy", "delta": 10 },
+                { "type": "state_set", "key": "patient_capacity_assessed", "value": true },
+                { "type": "skill_xp", "skill": "ethics", "xp": 30 }
+              ],
+              "preconditions": [],
+              "next_step_key": "capacity_confirmed"
+            },
+            {
+              "option_key": "override_for_survival",
+              "label": "Override the refusal — saving his life takes precedence",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": 10 },
+                { "type": "metric_delta", "metric": "team_trust", "delta": -25 },
+                { "type": "skill_xp", "skill": "clinical_judgment", "xp": 5 }
+              ],
+              "preconditions": [],
+              "next_step_key": "ethical_fallout"
+            },
+            {
+              "option_key": "involve_family",
+              "label": "Ask his wife to come in and help you persuade him",
+              "effects": [
+                { "type": "metric_delta", "metric": "patient_stability", "delta": -5 },
+                { "type": "state_set", "key": "family_involved", "value": true },
+                { "type": "skill_xp", "skill": "patient_communication", "xp": 15 }
+              ],
+              "preconditions": [],
+              "next_step_key": "capacity_confirmed"
+            }
+          ]
+        },
+        {
+          "step_key": "capacity_confirmed",
+          "title": "He Has Full Capacity",
+          "narrative": "The psychiatric consultation confirms: Ahmed has full decision-making capacity. He understands the consequences. His refusal is legally and ethically valid. Your team is uncomfortable. One junior doctor says, 'We can't just let him die.'",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "respect_and_optimise",
+              "label": "Respect his decision and explore all bloodless alternatives to the maximum",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_trust", "delta": 20 },
+                { "type": "metric_delta", "metric": "patient_stability", "delta": 5 },
+                { "type": "state_set", "key": "patient_decision_respected", "value": true },
+                { "type": "skill_xp", "skill": "ethics", "xp": 45 },
+                { "type": "skill_xp", "skill": "patient_communication", "xp": 20 }
+              ],
+              "preconditions": [],
+              "next_step_key": "ethics_debrief"
+            },
+            {
+              "option_key": "consult_ethics_committee",
+              "label": "Call an emergency ethics committee meeting",
+              "effects": [
+                { "type": "metric_delta", "metric": "diagnosis_accuracy", "delta": 10 },
+                { "type": "state_set", "key": "ethics_committee_consulted", "value": true },
+                { "type": "skill_xp", "skill": "ethics", "xp": 30 }
+              ],
+              "preconditions": [
+                { "type": "state_is_true", "key": "patient_capacity_assessed" }
+              ],
+              "next_step_key": "ethics_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "ethical_fallout",
+          "title": "The Aftermath of Overriding",
+          "narrative": "Ahmed survived physically but is distressed and speaks of legal action. His family is furious. The hospital's legal team is involved. Your team is divided.",
+          "step_type": "terminal",
+          "sort_order": 3,
+          "decision_options": []
+        },
+        {
+          "step_key": "ethics_debrief",
+          "title": "The Hardest Kind of Medicine",
+          "narrative": "Ahmed received bloodless treatment. His outcome is uncertain but he is at peace with his decision. You've navigated one of the most difficult intersections in medicine: patient autonomy versus beneficence.",
+          "step_type": "terminal",
+          "sort_order": 3,
+          "decision_options": []
+        }
+      ],
+      "transitions": []
+    }
+  ]
+}

@@ -1,0 +1,513 @@
+{
+  "profession": {
+    "slug": "software_engineer",
+    "name": "Software Engineer",
+    "description": "Navigate real engineering challenges: production incidents, architecture decisions, team conflicts, and code review dilemmas.",
+    "icon_key": "code",
+    "color_hex": "#34d399",
+    "difficulty_label": "Intermediate"
+  },
+  "scenarios": [
+    {
+      "slug": "legacy_codebase_crisis",
+      "title": "The Legacy Codebase Crisis",
+      "description": "A critical production bug surfaces at 3 AM in a 10-year-old monolith. You're the senior engineer on call.",
+      "difficulty": 4,
+      "estimated_steps": 5,
+      "tags": ["incident-response", "legacy", "on-call"],
+      "initial_metrics": { "risk": 20, "reputation": 55, "team_morale": 70, "score": 0 },
+      "initial_state": {
+        "production_incident": true,
+        "escalated_to_manager": false,
+        "hotfix_deployed": false,
+        "tests_written": false,
+        "root_cause_found": false
+      },
+      "steps": [
+        {
+          "step_key": "initial_alert",
+          "title": "The PagerDuty Alert",
+          "narrative": "3:00 AM. Your phone screams. The payment service is returning 500s for 12% of transactions. The on-call runbook points to a module last touched in 2015. You have no immediate context and users are losing transactions.",
+          "context_data": { "error_rate": "12%", "affected_service": "payment_processor", "last_commit": "3 days ago" },
+          "step_type": "decision",
+          "sort_order": 1,
+          "decision_options": [
+            {
+              "option_key": "rollback_immediately",
+              "label": "Roll back the last deployment immediately",
+              "description": "Safe but may undo a week of work. Gets users back online fastest.",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": -10 },
+                { "type": "metric_delta", "metric": "reputation", "delta": 5 },
+                { "type": "state_set", "key": "hotfix_deployed", "value": false },
+                { "type": "skill_xp", "skill": "incident_response", "xp": 20 }
+              ],
+              "preconditions": [],
+              "next_step_key": "post_rollback"
+            },
+            {
+              "option_key": "investigate_logs",
+              "label": "Dig into logs before taking any action",
+              "description": "More information, but every minute costs users money.",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": 8 },
+                { "type": "metric_delta", "metric": "reputation", "delta": -3 },
+                { "type": "state_set", "key": "root_cause_found", "value": true },
+                { "type": "skill_xp", "skill": "debugging", "xp": 30 }
+              ],
+              "preconditions": [],
+              "next_step_key": "deep_investigation"
+            },
+            {
+              "option_key": "wake_team",
+              "label": "Page two senior engineers for support",
+              "description": "Slower start, but distributed cognitive load under pressure.",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": 3 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": -15 },
+                { "type": "metric_delta", "metric": "reputation", "delta": 10 },
+                { "type": "skill_xp", "skill": "leadership", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "collaborative_debug"
+            }
+          ]
+        },
+        {
+          "step_key": "post_rollback",
+          "title": "Rollback Succeeded — Now What?",
+          "narrative": "Traffic normalises. Error rate drops to 0%. Your manager pings: 'Good call. What was it?' You don't fully know yet. The post-mortem is tomorrow morning.",
+          "context_data": { "incident_resolved": true, "time_elapsed_minutes": 22 },
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "write_regression_test",
+              "label": "Write a regression test before touching the code again",
+              "description": "Slows you down now but prevents recurrence.",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": -15 },
+                { "type": "metric_delta", "metric": "reputation", "delta": 20 },
+                { "type": "state_set", "key": "tests_written", "value": true },
+                { "type": "skill_xp", "skill": "engineering_rigor", "xp": 30 }
+              ],
+              "preconditions": [],
+              "next_step_key": "final_debrief"
+            },
+            {
+              "option_key": "quick_patch",
+              "label": "Apply a targeted hotfix and document it in the runbook",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": -5 },
+                { "type": "metric_delta", "metric": "reputation", "delta": 5 },
+                { "type": "state_set", "key": "hotfix_deployed", "value": true },
+                { "type": "skill_xp", "skill": "incident_response", "xp": 15 }
+              ],
+              "preconditions": [],
+              "next_step_key": "final_debrief"
+            },
+            {
+              "option_key": "propose_refactor",
+              "label": "Propose a full module refactor to engineering leadership",
+              "description": "Bold move — requires you to have earned credibility first.",
+              "effects": [
+                { "type": "metric_delta", "metric": "reputation", "delta": 30 },
+                { "type": "metric_delta", "metric": "risk", "delta": 10 },
+                { "type": "skill_xp", "skill": "leadership", "xp": 25 }
+              ],
+              "preconditions": [
+                { "type": "metric_gte", "metric": "reputation", "value": 55 }
+              ],
+              "next_step_key": "final_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "deep_investigation",
+          "title": "Found the Root Cause",
+          "narrative": "Logs reveal a race condition in the 2015 payment module triggered by a new async database driver. You found it — but the error rate climbs to 18% while you were investigating. Your manager is now awake.",
+          "context_data": { "root_cause": "race_condition", "error_rate_now": "18%" },
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "fix_directly",
+              "label": "Apply a targeted fix directly to the race condition",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": -18 },
+                { "type": "metric_delta", "metric": "reputation", "delta": 25 },
+                { "type": "state_set", "key": "hotfix_deployed", "value": true },
+                { "type": "skill_xp", "skill": "debugging", "xp": 35 },
+                { "type": "skill_xp", "skill": "engineering_rigor", "xp": 20 }
+              ],
+              "preconditions": [],
+              "next_step_key": "final_debrief"
+            },
+            {
+              "option_key": "rollback_now",
+              "label": "Roll back now, document findings, fix properly tomorrow",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": -15 },
+                { "type": "metric_delta", "metric": "reputation", "delta": -5 },
+                { "type": "skill_xp", "skill": "incident_response", "xp": 15 }
+              ],
+              "preconditions": [],
+              "next_step_key": "final_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "collaborative_debug",
+          "title": "The Team Is Online",
+          "narrative": "Two senior engineers join the call — groggy but sharp. Between the three of you, you identify the issue in 8 minutes. The team credibility is shaken by the 3 AM page, but the problem is solved faster.",
+          "context_data": { "team_online": true, "time_to_resolve_minutes": 8 },
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "take_ownership",
+              "label": "Own the fix yourself, let the others monitor",
+              "effects": [
+                { "type": "metric_delta", "metric": "reputation", "delta": 15 },
+                { "type": "metric_delta", "metric": "risk", "delta": -12 },
+                { "type": "skill_xp", "skill": "leadership", "xp": 20 }
+              ],
+              "preconditions": [],
+              "next_step_key": "final_debrief"
+            },
+            {
+              "option_key": "pair_fix",
+              "label": "Pair on the fix with the most experienced engineer",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": 10 },
+                { "type": "metric_delta", "metric": "risk", "delta": -15 },
+                { "type": "metric_delta", "metric": "reputation", "delta": 8 },
+                { "type": "skill_xp", "skill": "collaboration", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "final_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "final_debrief",
+          "title": "Post-Mortem Complete",
+          "narrative": "The incident is closed. Your engineering director reviews your response. The decisions you made tonight will define your reputation for the quarter — and shape how the team handles the next crisis.",
+          "step_type": "terminal",
+          "sort_order": 5,
+          "decision_options": []
+        }
+      ],
+      "transitions": [
+        {
+          "from_step_key": "deep_investigation",
+          "condition": { "type": "state_is_true", "key": "production_incident" },
+          "to_step_key": "final_debrief",
+          "priority": 0
+        }
+      ]
+    },
+    {
+      "slug": "architecture_decision",
+      "title": "The Microservices Dilemma",
+      "description": "Your startup's monolith is groaning under scale. The CTO wants to migrate to microservices in 3 months. You have strong doubts. What do you recommend?",
+      "difficulty": 3,
+      "estimated_steps": 4,
+      "tags": ["architecture", "leadership", "technical-strategy"],
+      "initial_metrics": { "risk": 30, "reputation": 60, "team_morale": 65, "score": 0 },
+      "initial_state": {
+        "cto_briefed": false,
+        "team_aligned": false,
+        "prototype_built": false,
+        "migration_approved": false
+      },
+      "steps": [
+        {
+          "step_key": "initial_meeting",
+          "title": "The Architecture Review",
+          "narrative": "The CTO presents a slide deck: 'We move to microservices in Q2 or we die by scale.' The team looks nervous. You've seen three failed microservices migrations at previous companies. The deadline is unrealistic.",
+          "step_type": "decision",
+          "sort_order": 1,
+          "decision_options": [
+            {
+              "option_key": "push_back_data",
+              "label": "Push back with data: share migration failure rates and propose a phased approach",
+              "effects": [
+                { "type": "metric_delta", "metric": "reputation", "delta": 15 },
+                { "type": "metric_delta", "metric": "risk", "delta": -10 },
+                { "type": "state_set", "key": "cto_briefed", "value": true },
+                { "type": "skill_xp", "skill": "technical_leadership", "xp": 35 }
+              ],
+              "preconditions": [],
+              "next_step_key": "negotiation"
+            },
+            {
+              "option_key": "agree_build_poc",
+              "label": "Agree, but propose a proof-of-concept sprint first",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": 5 },
+                { "type": "metric_delta", "metric": "risk", "delta": 5 },
+                { "type": "state_set", "key": "prototype_built", "value": true },
+                { "type": "skill_xp", "skill": "pragmatism", "xp": 20 }
+              ],
+              "preconditions": [],
+              "next_step_key": "poc_results"
+            },
+            {
+              "option_key": "just_comply",
+              "label": "Say nothing and start planning the migration",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": 20 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": -10 },
+                { "type": "skill_xp", "skill": "execution", "xp": 10 }
+              ],
+              "preconditions": [],
+              "next_step_key": "migration_in_progress"
+            }
+          ]
+        },
+        {
+          "step_key": "negotiation",
+          "title": "The CTO Listens",
+          "narrative": "The CTO appreciated your directness. They ask: 'What would you propose instead?' You have 5 minutes to make your case. The room is quiet.",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "modular_monolith",
+              "label": "Propose a modular monolith with clear service boundaries first",
+              "effects": [
+                { "type": "metric_delta", "metric": "reputation", "delta": 20 },
+                { "type": "metric_delta", "metric": "risk", "delta": -15 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": 15 },
+                { "type": "state_set", "key": "migration_approved", "value": true },
+                { "type": "skill_xp", "skill": "technical_leadership", "xp": 40 }
+              ],
+              "preconditions": [],
+              "next_step_key": "architecture_debrief"
+            },
+            {
+              "option_key": "selective_extraction",
+              "label": "Propose extracting only the two highest-load services first",
+              "effects": [
+                { "type": "metric_delta", "metric": "reputation", "delta": 10 },
+                { "type": "metric_delta", "metric": "risk", "delta": -5 },
+                { "type": "skill_xp", "skill": "pragmatism", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "architecture_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "poc_results",
+          "title": "The PoC Is Done",
+          "narrative": "The PoC sprint revealed exactly what you feared: distributed transactions are brutal, deployment complexity tripled, and the team is exhausted. The data is now on your side.",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "present_findings",
+              "label": "Present findings honestly and recommend a course correction",
+              "effects": [
+                { "type": "metric_delta", "metric": "reputation", "delta": 25 },
+                { "type": "metric_delta", "metric": "risk", "delta": -20 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": 10 },
+                { "type": "skill_xp", "skill": "technical_leadership", "xp": 35 }
+              ],
+              "preconditions": [],
+              "next_step_key": "architecture_debrief"
+            },
+            {
+              "option_key": "proceed_anyway",
+              "label": "Proceed despite the findings — the CTO already committed publicly",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": 25 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": -20 },
+                { "type": "skill_xp", "skill": "execution", "xp": 10 }
+              ],
+              "preconditions": [],
+              "next_step_key": "architecture_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "migration_in_progress",
+          "title": "Three Weeks In — It's Worse Than Expected",
+          "narrative": "Three weeks in, velocity has dropped 60%. Two engineers are talking about quitting. The CTO asks for a status update.",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "escalate_honestly",
+              "label": "Escalate honestly: the timeline is impossible and here's why",
+              "effects": [
+                { "type": "metric_delta", "metric": "reputation", "delta": 10 },
+                { "type": "metric_delta", "metric": "risk", "delta": -10 },
+                { "type": "skill_xp", "skill": "leadership", "xp": 30 }
+              ],
+              "preconditions": [],
+              "next_step_key": "architecture_debrief"
+            },
+            {
+              "option_key": "optimise_spin",
+              "label": "Give an optimistic status report and work nights to catch up",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": 15 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": -25 },
+                { "type": "skill_xp", "skill": "execution", "xp": 5 }
+              ],
+              "preconditions": [],
+              "next_step_key": "architecture_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "architecture_debrief",
+          "title": "Strategy Defined",
+          "narrative": "The architecture decision is locked. The choices you made will determine whether the team ships a resilient system — or spends the next year fighting distributed systems complexity they weren't ready for.",
+          "step_type": "terminal",
+          "sort_order": 4,
+          "decision_options": []
+        }
+      ],
+      "transitions": []
+    },
+    {
+      "slug": "code_review_conflict",
+      "title": "The Code Review War",
+      "description": "A junior engineer's PR has serious problems, but they've been working on it for two weeks. Another senior engineer left harsh comments. The situation is escalating.",
+      "difficulty": 2,
+      "estimated_steps": 4,
+      "tags": ["team-dynamics", "code-review", "mentorship"],
+      "initial_metrics": { "risk": 10, "reputation": 60, "team_morale": 55, "score": 0 },
+      "initial_state": {
+        "pr_merged": false,
+        "junior_morale_damaged": false,
+        "senior_conflict_resolved": false,
+        "code_quality_addressed": false
+      },
+      "steps": [
+        {
+          "step_key": "pr_situation",
+          "title": "The Toxic Thread",
+          "narrative": "Alex, a junior engineer, submitted a PR after 2 weeks of work. Senior engineer Marco left 14 comments — several of them dismissive: 'This is wrong,' 'Did you even test this?' Alex just went quiet on Slack. The PR has real issues but Marco's comments crossed a line.",
+          "step_type": "decision",
+          "sort_order": 1,
+          "decision_options": [
+            {
+              "option_key": "address_both",
+              "label": "Talk to both privately — acknowledge Marco's concerns but address his tone",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": 20 },
+                { "type": "metric_delta", "metric": "reputation", "delta": 15 },
+                { "type": "state_set", "key": "senior_conflict_resolved", "value": true },
+                { "type": "skill_xp", "skill": "leadership", "xp": 35 }
+              ],
+              "preconditions": [],
+              "next_step_key": "code_quality_step"
+            },
+            {
+              "option_key": "focus_code_only",
+              "label": "Stay neutral — only comment on the technical issues in the PR",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": 5 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": -5 },
+                { "type": "skill_xp", "skill": "engineering_rigor", "xp": 15 }
+              ],
+              "preconditions": [],
+              "next_step_key": "code_quality_step"
+            },
+            {
+              "option_key": "defend_junior",
+              "label": "Publicly defend Alex and call out Marco's tone in the PR thread",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": -15 },
+                { "type": "metric_delta", "metric": "reputation", "delta": -10 },
+                { "type": "state_set", "key": "junior_morale_damaged", "value": false },
+                { "type": "skill_xp", "skill": "conflict_resolution", "xp": 10 }
+              ],
+              "preconditions": [],
+              "next_step_key": "code_quality_step"
+            }
+          ]
+        },
+        {
+          "step_key": "code_quality_step",
+          "title": "The Real Technical Problems",
+          "narrative": "The PR has genuine issues: missing error handling, N+1 queries, no tests. These need to be addressed regardless of the interpersonal conflict. Alex is now responsive but looks deflated.",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "pair_review",
+              "label": "Offer to pair with Alex to fix the issues together",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": 20 },
+                { "type": "metric_delta", "metric": "risk", "delta": -5 },
+                { "type": "state_set", "key": "code_quality_addressed", "value": true },
+                { "type": "skill_xp", "skill": "mentorship", "xp": 40 }
+              ],
+              "preconditions": [],
+              "next_step_key": "pr_resolution"
+            },
+            {
+              "option_key": "written_feedback",
+              "label": "Leave detailed, constructive written feedback and give Alex time to self-fix",
+              "effects": [
+                { "type": "metric_delta", "metric": "reputation", "delta": 10 },
+                { "type": "state_set", "key": "code_quality_addressed", "value": true },
+                { "type": "skill_xp", "skill": "mentorship", "xp": 20 },
+                { "type": "skill_xp", "skill": "engineering_rigor", "xp": 15 }
+              ],
+              "preconditions": [],
+              "next_step_key": "pr_resolution"
+            }
+          ]
+        },
+        {
+          "step_key": "pr_resolution",
+          "title": "The PR Is Ready — But Should It Merge?",
+          "narrative": "Alex has addressed all the technical issues. The code is now solid. Marco hasn't apologised. Alex asks: 'Should I re-request review from Marco or just get it merged?'",
+          "step_type": "decision",
+          "sort_order": 3,
+          "decision_options": [
+            {
+              "option_key": "you_approve",
+              "label": "Approve it yourself and let it merge — Marco's review is no longer needed",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": 15 },
+                { "type": "state_set", "key": "pr_merged", "value": true },
+                { "type": "skill_xp", "skill": "leadership", "xp": 20 }
+              ],
+              "preconditions": [
+                { "type": "state_is_true", "key": "code_quality_addressed" }
+              ],
+              "next_step_key": "review_debrief"
+            },
+            {
+              "option_key": "require_marco_review",
+              "label": "Require Marco to re-review — he needs to close what he opened",
+              "effects": [
+                { "type": "metric_delta", "metric": "risk", "delta": 5 },
+                { "type": "metric_delta", "metric": "reputation", "delta": 5 },
+                { "type": "skill_xp", "skill": "conflict_resolution", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "review_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "review_debrief",
+          "title": "The Fallout",
+          "narrative": "The PR is merged. Alex sends you a DM: 'Thank you. I almost quit this week.' How you handled this will shape how junior engineers feel about doing hard things on this team.",
+          "step_type": "terminal",
+          "sort_order": 4,
+          "decision_options": []
+        }
+      ],
+      "transitions": []
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { color-scheme: dark; }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background-color: #07040f;
+    color: #f5f0ff;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: #0d0820; }
+  ::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.4); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(124,58,237,0.65); }
+
+  ::selection { background: rgba(124,58,237,0.3); color: #f5f0ff; }
+}
+
+@layer components {
+  .glass {
+    @apply bg-ogma-surface2/60 backdrop-blur-xl border border-ogma-600/20;
+  }
+  .glass-hover {
+    @apply hover:bg-ogma-surface2/80 hover:border-ogma-600/40 transition-all duration-300;
+  }
+  .glass-strong {
+    @apply bg-ogma-surface/80 backdrop-blur-3xl border border-ogma-600/30;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-primary bg-clip-text text-transparent;
+  }
+
+  .bento {
+    @apply glass glass-hover rounded-2xl p-6 shadow-card;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-ogma-surface3 border border-ogma-600/20 rounded-xl
+           text-ogma-text placeholder:text-ogma-muted
+           focus:outline-none focus:border-ogma-600 focus:ring-2 focus:ring-ogma-600/20
+           transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-ogma-600 hover:bg-ogma-700 text-white font-semibold px-6 py-3
+           rounded-xl transition-all duration-200 hover:shadow-glow-sm
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply glass glass-hover text-ogma-secondary font-medium px-5 py-2.5 rounded-xl;
+  }
+
+  .metric-track {
+    @apply h-1.5 rounded-full overflow-hidden bg-ogma-surface3;
+  }
+  .metric-fill {
+    @apply h-full rounded-full bg-gradient-primary transition-all duration-700 ease-out;
+  }
+
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl font-bold tracking-tight text-ogma-text;
+  }
+
+  .tag-pill {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+           bg-ogma-600/20 text-ogma-300 border border-ogma-600/30;
+  }
+}
+
+/* Animated background grid */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(rgba(124,58,237,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,58,237,0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Orb glow */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Shimmer loading skeleton */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(124,58,237,0.06) 25%,
+    rgba(124,58,237,0.12) 50%,
+    rgba(124,58,237,0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2.5s linear infinite;
+  border-radius: 8px;
+}
+
+/* Floating particles */
+@keyframes particleFloat {
+  0%,100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
+  25%      { transform: translateY(-12px) translateX(6px); opacity: 0.7; }
+  50%      { transform: translateY(-6px) translateX(-4px); opacity: 0.5; }
+  75%      { transform: translateY(-16px) translateX(3px); opacity: 0.6; }
+}
+
+/* Character pulse dot */
+@keyframes charPulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%     { opacity: 0.5; transform: scale(1.35); }
+}
+
+/* Consequence overlay entrance */
+@keyframes scaleIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+@keyframes iconBounce {
+  0%   { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+  70%  { transform: scale(1.15) rotate(3deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes dramaticFlash {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0.55; }
+}
+@keyframes timerBlink {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0.25; }
+}

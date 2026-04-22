@@ -1,0 +1,278 @@
+{
+  "profession": {
+    "slug": "business_manager",
+    "name": "Business Manager",
+    "description": "Run the business: navigate budget crises, team conflicts, product failures, and the relentless pressure of stakeholder expectations.",
+    "icon_key": "briefcase",
+    "color_hex": "#fbbf24",
+    "difficulty_label": "Intermediate"
+  },
+  "scenarios": [
+    {
+      "slug": "budget_crisis",
+      "title": "The 30% Budget Cut",
+      "description": "HQ has mandated a 30% cost reduction across your division. You have one week to present a plan. Every option harms someone.",
+      "difficulty": 4,
+      "estimated_steps": 4,
+      "tags": ["budget", "leadership", "crisis-management"],
+      "initial_metrics": {
+        "company_health": 55,
+        "team_morale": 65,
+        "stakeholder_trust": 60,
+        "score": 0
+      },
+      "initial_state": {
+        "cuts_announced": false,
+        "team_consulted": false,
+        "plan_submitted": false,
+        "layoffs_avoided": false
+      },
+      "steps": [
+        {
+          "step_key": "initial_mandate",
+          "title": "The Email from HQ",
+          "narrative": "The CFO's email arrives Friday evening: '30% opex reduction, plan due Monday, non-negotiable.' You manage a team of 22. There is no way to hit 30% without affecting people. Your team doesn't know yet.",
+          "step_type": "decision",
+          "sort_order": 1,
+          "decision_options": [
+            {
+              "option_key": "tell_team_monday",
+              "label": "Tell the team first thing Monday — transparency builds trust even in bad news",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": -10 },
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": 15 },
+                { "type": "state_set", "key": "team_consulted", "value": true },
+                { "type": "skill_xp", "skill": "leadership", "xp": 30 }
+              ],
+              "preconditions": [],
+              "next_step_key": "options_analysis"
+            },
+            {
+              "option_key": "build_plan_first",
+              "label": "Build the plan in private first, then announce with solutions ready",
+              "effects": [
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": 10 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": -5 },
+                { "type": "skill_xp", "skill": "strategic_planning", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "options_analysis"
+            },
+            {
+              "option_key": "push_back_hq",
+              "label": "Push back to HQ: request a meeting to discuss the timeline and alternatives",
+              "effects": [
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": -5 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": 10 },
+                { "type": "metric_delta", "metric": "company_health", "delta": 5 },
+                { "type": "skill_xp", "skill": "leadership", "xp": 35 }
+              ],
+              "preconditions": [
+                { "type": "metric_gte", "metric": "stakeholder_trust", "value": 55 }
+              ],
+              "next_step_key": "options_analysis"
+            }
+          ]
+        },
+        {
+          "step_key": "options_analysis",
+          "title": "Three Paths, No Good Ones",
+          "narrative": "Your CFO analysis shows three ways to hit 30%: (A) Lay off 6 people, (B) Freeze all raises and cut perks for 18 months, (C) Pause two product lines and redeploy staff. Your team lead tells you morale is already fragile after last quarter.",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "layoffs",
+              "label": "Option A: Targeted layoffs — fastest, clearest savings, hardest human cost",
+              "effects": [
+                { "type": "metric_delta", "metric": "company_health", "delta": 20 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": -30 },
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": 10 },
+                { "type": "skill_xp", "skill": "difficult_decisions", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "communication_plan"
+            },
+            {
+              "option_key": "freeze_perks",
+              "label": "Option B: Freeze raises and cut perks — shared pain, no jobs lost",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": -15 },
+                { "type": "metric_delta", "metric": "company_health", "delta": 12 },
+                { "type": "state_set", "key": "layoffs_avoided", "value": true },
+                { "type": "skill_xp", "skill": "strategic_planning", "xp": 30 }
+              ],
+              "preconditions": [],
+              "next_step_key": "communication_plan"
+            },
+            {
+              "option_key": "pause_products",
+              "label": "Option C: Pause two product lines, redeploy to core — protects jobs, risks strategic focus",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": -5 },
+                { "type": "metric_delta", "metric": "company_health", "delta": 8 },
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": -10 },
+                { "type": "state_set", "key": "layoffs_avoided", "value": true },
+                { "type": "skill_xp", "skill": "strategic_planning", "xp": 35 }
+              ],
+              "preconditions": [],
+              "next_step_key": "communication_plan"
+            }
+          ]
+        },
+        {
+          "step_key": "communication_plan",
+          "title": "The All-Hands Meeting",
+          "narrative": "Monday morning. 22 people are in the room or on video. You have to explain what's happening, why, and what comes next. The tone you set now will determine whether this team survives the crisis intact.",
+          "step_type": "decision",
+          "sort_order": 3,
+          "decision_options": [
+            {
+              "option_key": "full_transparency",
+              "label": "Full transparency: share the numbers, the reasoning, and the timeline without spin",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": 10 },
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": 10 },
+                { "type": "state_set", "key": "plan_submitted", "value": true },
+                { "type": "skill_xp", "skill": "leadership", "xp": 40 },
+                { "type": "skill_xp", "skill": "communication", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "budget_debrief"
+            },
+            {
+              "option_key": "positive_framing",
+              "label": "Frame it as strategic focus and investment in the team's future",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": -5 },
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": 5 },
+                { "type": "state_set", "key": "plan_submitted", "value": true },
+                { "type": "skill_xp", "skill": "communication", "xp": 15 }
+              ],
+              "preconditions": [],
+              "next_step_key": "budget_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "budget_debrief",
+          "title": "Six Months Later",
+          "narrative": "The cuts are behind you. Looking back, the decisions you made — not just the financial ones, but how you treated people — define what kind of leader you are.",
+          "step_type": "terminal",
+          "sort_order": 4,
+          "decision_options": []
+        }
+      ],
+      "transitions": []
+    },
+    {
+      "slug": "product_launch_failure",
+      "title": "The Launch That Went Wrong",
+      "description": "Your flagship product launched last week to terrible reviews. Your team worked 12-hour days for 6 months. The board wants answers. The press is circling.",
+      "difficulty": 3,
+      "estimated_steps": 3,
+      "tags": ["product", "crisis-communications", "accountability"],
+      "initial_metrics": {
+        "company_health": 40,
+        "team_morale": 35,
+        "stakeholder_trust": 40,
+        "score": 0
+      },
+      "initial_state": {
+        "root_cause_identified": false,
+        "public_response_issued": false,
+        "team_blamed": false,
+        "board_briefed": false
+      },
+      "steps": [
+        {
+          "step_key": "board_meeting",
+          "title": "The Emergency Board Meeting",
+          "narrative": "The board has called an emergency session. Three board members are visibly angry. Your head of product is in the room. The failure had several causes: a rushed timeline (your call), a testing gap (team's execution), and a competitor's surprise feature (nobody's fault). How do you frame this?",
+          "step_type": "decision",
+          "sort_order": 1,
+          "decision_options": [
+            {
+              "option_key": "own_timeline_decision",
+              "label": "Own the timeline decision as yours — the team executed well within impossible constraints",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": 20 },
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": 10 },
+                { "type": "metric_delta", "metric": "company_health", "delta": 5 },
+                { "type": "skill_xp", "skill": "accountability", "xp": 40 }
+              ],
+              "preconditions": [],
+              "next_step_key": "recovery_plan"
+            },
+            {
+              "option_key": "balanced_analysis",
+              "label": "Present a balanced post-mortem: shared accountability across causes",
+              "effects": [
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": 15 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": 5 },
+                { "type": "skill_xp", "skill": "strategic_planning", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "recovery_plan"
+            },
+            {
+              "option_key": "blame_team",
+              "label": "Point to the testing gap as the primary failure — protect your strategic decisions",
+              "effects": [
+                { "type": "metric_delta", "metric": "team_morale", "delta": -30 },
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": 5 },
+                { "type": "state_set", "key": "team_blamed", "value": true },
+                { "type": "skill_xp", "skill": "accountability", "xp": 0 }
+              ],
+              "preconditions": [],
+              "next_step_key": "recovery_plan"
+            }
+          ]
+        },
+        {
+          "step_key": "recovery_plan",
+          "title": "Fixing It Publicly",
+          "narrative": "The press has the story. A tech journalist is asking for comment. Your PR team has prepared two options: a defensive statement, or a full public post-mortem with a recovery roadmap.",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "public_post_mortem",
+              "label": "Publish a full post-mortem: what went wrong, why, and exactly how you're fixing it",
+              "effects": [
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": 25 },
+                { "type": "metric_delta", "metric": "company_health", "delta": 10 },
+                { "type": "metric_delta", "metric": "team_morale", "delta": 10 },
+                { "type": "state_set", "key": "public_response_issued", "value": true },
+                { "type": "skill_xp", "skill": "communication", "xp": 35 }
+              ],
+              "preconditions": [],
+              "next_step_key": "launch_debrief"
+            },
+            {
+              "option_key": "defensive_statement",
+              "label": "Issue a brief defensive statement and focus internally on the fix",
+              "effects": [
+                { "type": "metric_delta", "metric": "stakeholder_trust", "delta": -5 },
+                { "type": "metric_delta", "metric": "company_health", "delta": 5 },
+                { "type": "state_set", "key": "public_response_issued", "value": true },
+                { "type": "skill_xp", "skill": "communication", "xp": 10 }
+              ],
+              "preconditions": [],
+              "next_step_key": "launch_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "launch_debrief",
+          "title": "One Month Later",
+          "narrative": "The product has been patched. User sentiment is recovering. Your team is watching how leadership responds to failure. This moment will define how they approach risk for years.",
+          "step_type": "terminal",
+          "sort_order": 3,
+          "decision_options": []
+        }
+      ],
+      "transitions": []
+    }
+  ]
+}

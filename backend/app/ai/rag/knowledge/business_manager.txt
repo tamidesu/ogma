@@ -1,0 +1,23 @@
+RADICAL CANDOR: Effective managers care personally about their team members while challenging them directly. The failure modes are: ruinous empathy (caring but not challenging), obnoxious aggression (challenging without caring), and manipulative insincerity (neither). The goal is honest feedback delivered with genuine concern for the person.
+
+LAYOFFS: Layoffs done poorly destroy more value than they save through talent loss, productivity collapse, and cultural damage. Best practice: make the decision quickly once made, communicate clearly and immediately, provide generous severance, and treat departing employees with dignity. Survivors watch everything.
+
+CRISIS COMMUNICATION: In a crisis, communicate early, often, and honestly — even when you don't have all the answers. Silence is interpreted as incompetence or cover-up. Acknowledge what is known, what is unknown, and what you are doing about it. Never speculate publicly about causes until investigated.
+
+PSYCHOLOGICAL SAFETY: Teams with high psychological safety take more risks, surface problems earlier, and perform better. Leaders build it by: modeling vulnerability, rewarding honesty (especially bad news), avoiding punishment for well-intentioned failures, and separating the quality of decisions from their outcomes.
+
+DECISION-MAKING UNDER UNCERTAINTY: Most strategic decisions are made with incomplete information. The goal is not certainty — it is a good process. Document the information you had, the options considered, and the reasoning. This allows retrospective learning regardless of outcome.
+
+TECHNICAL DEBT IN BUSINESS: Every strategic decision creates future obligations. A product launched too early accrues customer expectation debt. A team pushed past capacity accrues morale debt. A committed strategy that proves wrong creates pivot cost. Make these obligations explicit in planning.
+
+BUDGET CUTS: When cutting costs, prioritize preserving revenue-generating capabilities and customer-facing quality. Cut overhead, discretionary spending, and low-ROI activities before cutting people. If people must be cut, cut once deeply rather than multiple small rounds — "death by a thousand cuts" destroys morale more than one decisive action.
+
+STAKEHOLDER MANAGEMENT: Stakeholders have three types of concern: legitimate interests (outcomes), emotional needs (to be heard), and positional demands (what they say they want). Effective managers address all three. Ignoring emotional needs and positional demands, even when the logical interest is satisfied, causes relationship breakdown.
+
+PRODUCT-MARKET FIT: A failed product launch is usually a signal about fit, not execution. The right response is honest diagnosis: was it a market problem, a product problem, a timing problem, or an execution problem? Each requires a different response. Misdiagnosis leads to the wrong fix.
+
+LEADERSHIP ACCOUNTABILITY: Leaders are accountable for both the decisions they make and the culture they create. A team that hides problems, games metrics, or burns out silently is the result of leadership choices — even when leaders don't intend those outcomes. Accountability means asking "what did I do to create this?" not just "what did they do wrong?"
+
+OKRS: Objectives and Key Results work when they are ambitious but achievable, owned by the team not imposed, publicly visible, and regularly reviewed. They fail when they become compliance theater, when fear prevents honest scoring, or when they are used to micromanage execution.
+
+POST-MORTEM CULTURE: In high-performing organizations, failure is a learning event, not a shame event. A rigorous post-mortem asks: what happened, why it happened, and what we will do differently. It names systemic causes, not individual scapegoats. Leaders model this by being willing to share their own post-mortems.

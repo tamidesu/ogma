@@ -1,0 +1,23 @@
+ATTORNEY-CLIENT PRIVILEGE: Communications between an attorney and client for the purpose of seeking or receiving legal advice are privileged. The privilege belongs to the client, not the attorney. It protects confidentiality — but it does not authorize the attorney to present false evidence.
+
+DUTY OF CANDOR: Lawyers have a duty of candor to the tribunal under Model Rule 3.3. They may not knowingly make false statements of fact or law, fail to disclose directly adverse legal authority, or offer evidence they know to be false. This duty overrides client confidentiality in some jurisdictions.
+
+ZEALOUS REPRESENTATION: A lawyer must represent a client "zealously within the bounds of the law." This does not mean doing anything the client wants. It means maximizing the client's lawful interests using all legal means. The "within the bounds" qualifier is as important as the "zealously."
+
+WITHDRAWAL FROM REPRESENTATION: A lawyer may withdraw when continued representation would require the lawyer to take actions that are fundamentally repugnant to the lawyer. Mandatory withdrawal applies when continuing would result in violation of the rules of professional conduct. Notice must be given and courts may deny withdrawal if it would harm the client.
+
+PLEA BARGAINING: 97% of criminal convictions in the US result from guilty pleas. Effective plea bargaining requires understanding prosecutorial incentives, the strength of evidence, and the client's risk tolerance. A plea deal that avoids trial risk may be better than a technically stronger case taken to verdict.
+
+EXCLUSIONARY RULE: Evidence obtained in violation of the Fourth Amendment (unreasonable search and seizure) may be excluded from trial under the exclusionary rule. The "fruit of the poisonous tree" doctrine extends this to evidence derived from illegal searches. This is a legitimate defense strategy even when the defendant is guilty.
+
+SETTLEMENT STRATEGY: Most civil cases settle. The decision to settle vs. litigate involves: (1) probability of winning at trial, (2) cost of litigation vs. settlement amount, (3) time value of money, (4) reputational risk of trial, (5) client's risk tolerance. The best settlement is one where both parties feel slightly dissatisfied.
+
+DISCOVERY: Civil discovery requires parties to disclose relevant information, including damaging documents. Withholding discoverable documents is obstruction. Attorneys must review documents produced for privilege claims, but they cannot instruct clients to destroy documents once litigation is reasonably anticipated (spoliation).
+
+NEGOTIATION ANCHORING: The first offer in a negotiation creates an anchor that influences all subsequent discussion. Opening too low signals bad faith; opening too high creates adversarial dynamics. The best anchors are justified by objective criteria (market rates, precedent cases, expert valuations).
+
+CLIENT COMMUNICATION: Lawyers must keep clients informed of case developments, explain matters to the extent needed for informed decision-making, and follow client instructions within ethical limits. Clients decide: whether to plead guilty, whether to accept a settlement offer, whether to testify. Lawyers decide tactics and strategy.
+
+CONFLICT OF INTEREST: A lawyer may not represent clients with conflicting interests unless both clients give informed consent. This includes representing co-defendants, representing a company and its employee, or representing parties to a transaction.
+
+ETHICS CONSULTATION: When facing a difficult ethical question, consulting your state bar's ethics hotline or an ethics consultant is both professionally appropriate and protective. Documenting that you sought ethical guidance demonstrates good faith.

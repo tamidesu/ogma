@@ -1,0 +1,23 @@
+INCIDENT RESPONSE: The first priority during a production incident is to stop the bleeding — restore service, then investigate. A rollback is almost always safer than a hotfix under pressure. The MTTR (Mean Time To Recovery) matters more than appearing in control.
+
+BLAMELESS POST-MORTEMS: The best engineering cultures separate the incident from the people. Post-mortems should ask "what failed in our systems or processes?" not "who made the mistake?" Engineers who fear blame will hide information during incidents.
+
+ON-CALL ENGINEERING: Waking up colleagues at 3 AM is a last resort, not a weakness. Senior engineers who escalate appropriately are more trusted than those who heroically suffer alone. Document everything during an incident — memory degrades under stress.
+
+ROLLBACK STRATEGY: Deploying a hotfix to a broken production system without understanding the root cause risks introducing a second failure. When in doubt, roll back first, investigate in staging. "First, do no harm" applies to production systems too.
+
+LEGACY CODE: The most dangerous code is not the newest — it's the code no one understands. Before touching a 2015 module, read it, write a characterization test, then make your change. Never modify what you don't understand under pressure.
+
+TECHNICAL DEBT: Technical debt is not inherently bad. It is a financing instrument. The problem is debt that is invisible or unacknowledged. Make debt explicit — document it, estimate its interest rate (ongoing maintenance cost), and make deliberate decisions about when to pay it down.
+
+MICROSERVICES VS MONOLITH: Microservices solve organizational scaling problems, not necessarily technical ones. A modular monolith is often the right intermediate step. Conway's Law: the architecture you build will mirror your communication structure. Don't split services before you split teams.
+
+CODE REVIEW: Code review is primarily for knowledge sharing and catching logic errors — not for demonstrating superiority. Critique the code, never the person. "This pattern causes N+1 queries" is better than "this is wrong." Junior engineers should feel safe to submit imperfect code.
+
+ENGINEERING REPUTATION: Your reputation is built not on heroic individual contributions but on how reliably you make the people around you better. The engineer who prevents five incidents is worth more than the one who dramatically resolves one.
+
+PSYCHOLOGICAL SAFETY: Teams where people are afraid to admit mistakes or ask questions have longer incident durations and more recurring failures. The best predictor of team performance is psychological safety, not individual talent (Google Project Aristotle).
+
+DEPLOYMENT RISK: Feature flags, canary deployments, and blue-green deployments reduce the blast radius of any release. The safest deployment is one where you can turn off the new behavior instantly without a redeploy.
+
+OBSERVABILITY: You cannot debug what you cannot observe. Metrics (counters, gauges, histograms), logs (structured, with request IDs), and traces (distributed) are not nice-to-haves — they are the difference between a 10-minute and a 3-hour incident.

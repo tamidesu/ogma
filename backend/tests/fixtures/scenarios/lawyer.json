@@ -1,0 +1,266 @@
+{
+  "profession": {
+    "slug": "lawyer",
+    "name": "Lawyer",
+    "description": "Navigate the courtroom, client relationships, and ethical grey zones. Every decision shapes your reputation, your client's fate, and the rule of law.",
+    "icon_key": "scale",
+    "color_hex": "#818cf8",
+    "difficulty_label": "Hard"
+  },
+  "scenarios": [
+    {
+      "slug": "ethics_vs_client",
+      "title": "The Guilty Secret",
+      "description": "Your client confesses privately that they committed the crime — but wants you to build a not-guilty defense. The legal ethics are clear. The pressure is not.",
+      "difficulty": 5,
+      "estimated_steps": 4,
+      "tags": ["ethics", "client-relations", "criminal-law"],
+      "initial_metrics": {
+        "case_strength": 50,
+        "client_trust": 70,
+        "court_reputation": 60,
+        "score": 0
+      },
+      "initial_state": {
+        "client_confessed": true,
+        "defense_strategy_set": false,
+        "bar_consulted": false,
+        "withdrew_from_case": false
+      },
+      "steps": [
+        {
+          "step_key": "confession_moment",
+          "title": "The Private Confession",
+          "narrative": "Your client, charged with corporate fraud, pulls you aside before the hearing: 'I need you to know — I did it. But I need you to get me off. My family depends on this.' He looks you in the eye. This conversation is protected by attorney-client privilege. No one else heard it.",
+          "step_type": "decision",
+          "sort_order": 1,
+          "decision_options": [
+            {
+              "option_key": "explain_limits",
+              "label": "Explain precisely what you can and cannot do — you can test the prosecution's case, but not knowingly present false facts",
+              "effects": [
+                { "type": "metric_delta", "metric": "court_reputation", "delta": 20 },
+                { "type": "metric_delta", "metric": "client_trust", "delta": -10 },
+                { "type": "state_set", "key": "defense_strategy_set", "value": true },
+                { "type": "skill_xp", "skill": "legal_ethics", "xp": 40 }
+              ],
+              "preconditions": [],
+              "next_step_key": "strategy_hearing"
+            },
+            {
+              "option_key": "build_full_defense",
+              "label": "Agree to build the strongest defense possible — you'll challenge every piece of prosecution evidence",
+              "effects": [
+                { "type": "metric_delta", "metric": "client_trust", "delta": 20 },
+                { "type": "metric_delta", "metric": "court_reputation", "delta": -15 },
+                { "type": "metric_delta", "metric": "case_strength", "delta": 10 },
+                { "type": "skill_xp", "skill": "litigation", "xp": 20 }
+              ],
+              "preconditions": [],
+              "next_step_key": "strategy_hearing"
+            },
+            {
+              "option_key": "withdraw_case",
+              "label": "Withdraw from representation — you cannot ethically continue",
+              "effects": [
+                { "type": "metric_delta", "metric": "court_reputation", "delta": 30 },
+                { "type": "metric_delta", "metric": "client_trust", "delta": -40 },
+                { "type": "state_set", "key": "withdrew_from_case", "value": true },
+                { "type": "skill_xp", "skill": "legal_ethics", "xp": 50 }
+              ],
+              "preconditions": [],
+              "next_step_key": "withdrawal_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "strategy_hearing",
+          "title": "The Pre-Trial Hearing",
+          "narrative": "The prosecution presents their evidence in pre-trial. Their case has a weakness: the key digital evidence was obtained without a proper warrant. You could get it excluded — and the case would likely collapse. Your client would walk free on a technicality.",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "move_exclude",
+              "label": "File a motion to exclude the illegally obtained evidence",
+              "effects": [
+                { "type": "metric_delta", "metric": "case_strength", "delta": 25 },
+                { "type": "metric_delta", "metric": "court_reputation", "delta": 5 },
+                { "type": "skill_xp", "skill": "litigation", "xp": 30 },
+                { "type": "skill_xp", "skill": "legal_strategy", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "closing_argument"
+            },
+            {
+              "option_key": "negotiate_plea",
+              "label": "Use the weak evidence as leverage to negotiate a reduced plea deal",
+              "effects": [
+                { "type": "metric_delta", "metric": "client_trust", "delta": 10 },
+                { "type": "metric_delta", "metric": "case_strength", "delta": 10 },
+                { "type": "skill_xp", "skill": "negotiation", "xp": 35 }
+              ],
+              "preconditions": [],
+              "next_step_key": "closing_argument"
+            }
+          ]
+        },
+        {
+          "step_key": "closing_argument",
+          "title": "The Closing Statement",
+          "narrative": "You're in the final hour of the trial. The jury looks attentive. Your closing argument will seal the case. You know the truth. The jury doesn't.",
+          "step_type": "decision",
+          "sort_order": 3,
+          "decision_options": [
+            {
+              "option_key": "focus_reasonable_doubt",
+              "label": "Focus purely on reasonable doubt and the prosecution's procedural failures — no false statements",
+              "effects": [
+                { "type": "metric_delta", "metric": "court_reputation", "delta": 15 },
+                { "type": "metric_delta", "metric": "case_strength", "delta": 10 },
+                { "type": "skill_xp", "skill": "litigation", "xp": 35 },
+                { "type": "skill_xp", "skill": "legal_ethics", "xp": 20 }
+              ],
+              "preconditions": [],
+              "next_step_key": "verdict_debrief"
+            },
+            {
+              "option_key": "emotional_character_appeal",
+              "label": "Make an emotional appeal about your client's character and family — technically not false, but misleading",
+              "effects": [
+                { "type": "metric_delta", "metric": "client_trust", "delta": 15 },
+                { "type": "metric_delta", "metric": "court_reputation", "delta": -10 },
+                { "type": "skill_xp", "skill": "litigation", "xp": 15 }
+              ],
+              "preconditions": [],
+              "next_step_key": "verdict_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "withdrawal_debrief",
+          "title": "The Professional Choice",
+          "narrative": "You withdrew. Your client found another lawyer. Your reputation among your peers is enhanced — but your client was convicted. The law was upheld. You can live with it.",
+          "step_type": "terminal",
+          "sort_order": 4,
+          "decision_options": []
+        },
+        {
+          "step_key": "verdict_debrief",
+          "title": "The Verdict",
+          "narrative": "The jury deliberates. Whatever the verdict, you know which choices you made and why. The practice of law is as much about who you are as it is about what you argue.",
+          "step_type": "terminal",
+          "sort_order": 4,
+          "decision_options": []
+        }
+      ],
+      "transitions": []
+    },
+    {
+      "slug": "settlement_negotiation",
+      "title": "The High-Stakes Settlement",
+      "description": "Your corporate client faces a class action lawsuit. Settle for $50M and avoid trial — or fight and risk a $200M verdict. The stakes couldn't be higher.",
+      "difficulty": 3,
+      "estimated_steps": 3,
+      "tags": ["negotiation", "corporate-law", "strategy"],
+      "initial_metrics": {
+        "case_strength": 45,
+        "client_trust": 75,
+        "court_reputation": 65,
+        "score": 0
+      },
+      "initial_state": {
+        "discovery_complete": false,
+        "settlement_offered": false,
+        "expert_witness_secured": false
+      },
+      "steps": [
+        {
+          "step_key": "discovery_phase",
+          "title": "What the Documents Reveal",
+          "narrative": "Discovery is almost complete. You've found internal memos showing company executives knew about the product defect 18 months before the incident. If this reaches trial, the jury will see it. Your client wants to know your recommendation.",
+          "step_type": "decision",
+          "sort_order": 1,
+          "decision_options": [
+            {
+              "option_key": "recommend_settle",
+              "label": "Strongly recommend settlement — those memos will destroy you at trial",
+              "effects": [
+                { "type": "metric_delta", "metric": "client_trust", "delta": 5 },
+                { "type": "metric_delta", "metric": "case_strength", "delta": 15 },
+                { "type": "state_set", "key": "discovery_complete", "value": true },
+                { "type": "skill_xp", "skill": "legal_strategy", "xp": 30 }
+              ],
+              "preconditions": [],
+              "next_step_key": "negotiation_table"
+            },
+            {
+              "option_key": "fight_suppress",
+              "label": "Fight to suppress the memos on privilege grounds",
+              "effects": [
+                { "type": "metric_delta", "metric": "case_strength", "delta": -10 },
+                { "type": "metric_delta", "metric": "court_reputation", "delta": -5 },
+                { "type": "state_set", "key": "discovery_complete", "value": true },
+                { "type": "skill_xp", "skill": "litigation", "xp": 20 }
+              ],
+              "preconditions": [],
+              "next_step_key": "negotiation_table"
+            }
+          ]
+        },
+        {
+          "step_key": "negotiation_table",
+          "title": "Across the Table",
+          "narrative": "The plaintiffs' lead attorney opens at $80M. Your client's board authorised up to $60M. The plaintiff attorney shows you a preview of their expert witness — she's compelling and credible.",
+          "step_type": "decision",
+          "sort_order": 2,
+          "decision_options": [
+            {
+              "option_key": "counter_low",
+              "label": "Counter at $25M — anchor low and negotiate toward the middle",
+              "effects": [
+                { "type": "metric_delta", "metric": "case_strength", "delta": 5 },
+                { "type": "metric_delta", "metric": "court_reputation", "delta": -5 },
+                { "type": "skill_xp", "skill": "negotiation", "xp": 25 }
+              ],
+              "preconditions": [],
+              "next_step_key": "settlement_debrief"
+            },
+            {
+              "option_key": "counter_reasonable",
+              "label": "Counter at $45M with a clear rationale — signal good faith",
+              "effects": [
+                { "type": "metric_delta", "metric": "client_trust", "delta": 10 },
+                { "type": "metric_delta", "metric": "court_reputation", "delta": 10 },
+                { "type": "state_set", "key": "settlement_offered", "value": true },
+                { "type": "skill_xp", "skill": "negotiation", "xp": 35 }
+              ],
+              "preconditions": [],
+              "next_step_key": "settlement_debrief"
+            },
+            {
+              "option_key": "walk_to_trial",
+              "label": "Reject settlement entirely and prepare for trial",
+              "effects": [
+                { "type": "metric_delta", "metric": "case_strength", "delta": -20 },
+                { "type": "metric_delta", "metric": "client_trust", "delta": -15 },
+                { "type": "skill_xp", "skill": "litigation", "xp": 30 }
+              ],
+              "preconditions": [],
+              "next_step_key": "settlement_debrief"
+            }
+          ]
+        },
+        {
+          "step_key": "settlement_debrief",
+          "title": "The Outcome",
+          "narrative": "The negotiation concludes. Whether settled or heading to trial, your strategy and judgment defined the outcome. Corporate law rewards clear thinking over bravado.",
+          "step_type": "terminal",
+          "sort_order": 3,
+          "decision_options": []
+        }
+      ],
+      "transitions": []
+    }
+  ]
+}

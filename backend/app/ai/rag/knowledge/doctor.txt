@@ -1,0 +1,23 @@
+TRIAGE PRINCIPLES: The START triage system (Simple Triage And Rapid Treatment) categorizes patients as immediate (red), delayed (yellow), minimal (green), or expectant (black). In mass casualty events, the goal is the greatest good for the greatest number — not maximum effort for each individual.
+
+AIRWAY MANAGEMENT: Airway compromise is immediately life-threatening. A patient with burns to the face or neck, stridor, or hoarseness must be intubated before edema forecloses the airway. This is a "do it now" intervention — delay often means surgical airway.
+
+PATIENT AUTONOMY: A competent adult has the legal and ethical right to refuse any medical treatment, including life-saving treatment. Competence is assessed by: (1) understanding the information, (2) appreciating its relevance, (3) reasoning about it, (4) communicating a consistent choice. Capacity is decision-specific, not global.
+
+BIOETHICS — FOUR PRINCIPLES: (1) Autonomy: respect patient choices. (2) Beneficence: act in the patient's best interest. (3) Non-maleficence: do no harm. (4) Justice: fair distribution of resources. When principles conflict, autonomy generally prevails in Western medical ethics for competent adults.
+
+INFORMED CONSENT: Informed consent requires disclosure (diagnosis, treatment options, risks, alternatives), comprehension, voluntariness, and capacity. Documentation of the consent process matters as much as the consent itself.
+
+BREAKING BAD NEWS: The SPIKES protocol: Set up (private space, tissues, support person), Perception (what does the patient already know?), Invitation (does the patient want information?), Knowledge (deliver news in plain language), Emotions (respond empathetically before continuing), Strategy and Summary (next steps). Never deliver a terminal diagnosis and leave immediately.
+
+DIAGNOSTIC UNCERTAINTY: Most clinical decisions are made under uncertainty. A good clinician quantifies their uncertainty: "I'm 80% confident this is X, 15% it's Y." Anchoring bias — fixing on the first diagnosis and ignoring contradicting evidence — is the most common diagnostic error.
+
+CLINICAL HANDOVER: Failures of clinical handover cause more preventable harm than most other single factors. Use SBAR (Situation, Background, Assessment, Recommendation) for all handovers. The receiving clinician must actively confirm they have understood.
+
+RESOURCE ALLOCATION ETHICS: When resources are scarce (e.g., ICU beds, blood), allocation should be based on clinical criteria (likelihood of benefit) not social worth. Emotional pressure from families should not override clinical triage protocols — this actually harms overall outcomes.
+
+SECOND VICTIM: Clinicians who are involved in medical errors or adverse events often suffer serious psychological consequences. Failing to support the "second victim" leads to burnout, depression, and future errors. Acknowledgment and support from leadership is protective.
+
+ANTIBIOTIC STEWARDSHIP: Over-prescribing antibiotics creates resistant organisms that harm future patients. Empirical treatment should be as narrow-spectrum as possible. Culture-directed therapy should replace empirical therapy as soon as results allow.
+
+ESCALATION: A clinician who escalates early when uncertain is not showing weakness — they are showing good clinical judgment. The culture of "not bothering the consultant" contributes to preventable deterioration. If in doubt, escalate.
