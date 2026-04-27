@@ -9,7 +9,6 @@ import ProfessionsPage from './pages/ProfessionsPage'
 import ScenariosPage from './pages/ScenariosPage'
 import SimulationPage from './pages/SimulationPage'
 import ResultsPage from './pages/ResultsPage'
-import OpenWorldPage from './pages/OpenWorldPage'
 
 export default function App() {
   return (

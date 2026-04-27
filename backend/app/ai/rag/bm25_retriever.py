@@ -86,8 +86,8 @@ class BM25Retriever(Retriever):
 
         # Build BM25 index
         try:
-            from rank_bm25 import BM25Okapi
-            index = BM25Okapi(tokenized)
+            from rank_bm25 import BM25Plus
+            index = BM25Plus(tokenized)
             self._indices[slug] = (index, chunks)
             logger.debug("rag_index_built", profession=slug, chunks=len(chunks))
         except ImportError:

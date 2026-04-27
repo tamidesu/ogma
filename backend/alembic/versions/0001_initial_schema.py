@@ -109,23 +109,6 @@ def upgrade() -> None:
         sa.Column("priority", sa.Integer, nullable=False, server_default="0"),
     )
 
-    # ── ai_feedback ─────────────────────────────────────────
-    op.create_table(
-        "ai_feedback",
-        sa.Column("id", postgresql.UUID(as_uuid=True), primary_key=True, server_default=sa.text("gen_random_uuid()")),
-        sa.Column("session_id", postgresql.UUID(as_uuid=True), sa.ForeignKey("simulation_sessions.id"), nullable=False),
-        sa.Column("step_key", sa.String(100), nullable=False),
-        sa.Column("option_key", sa.String(100), nullable=False),
-        sa.Column("feedback_text", sa.Text, nullable=False),
-        sa.Column("prompt_version", sa.String(20)),
-        sa.Column("model_used", sa.String(100)),
-        sa.Column("latency_ms", sa.Integer),
-        sa.Column("tone", sa.String(50)),
-        sa.Column("quality_score", sa.Integer),
-        sa.Column("generated_at", sa.DateTime(timezone=True), nullable=False),
-    )
-    op.create_index("ix_ai_feedback_session_id", "ai_feedback", ["session_id"])
-
     # ── simulation_sessions ─────────────────────────────────
     op.create_table(
         "simulation_sessions",
@@ -148,6 +131,23 @@ def upgrade() -> None:
     )
     op.create_index("ix_sessions_user_id", "simulation_sessions", ["user_id"])
     op.create_index("ix_sessions_status", "simulation_sessions", ["status"])
+
+    # ── ai_feedback ─────────────────────────────────────────
+    op.create_table(
+        "ai_feedback",
+        sa.Column("id", postgresql.UUID(as_uuid=True), primary_key=True, server_default=sa.text("gen_random_uuid()")),
+        sa.Column("session_id", postgresql.UUID(as_uuid=True), sa.ForeignKey("simulation_sessions.id"), nullable=False),
+        sa.Column("step_key", sa.String(100), nullable=False),
+        sa.Column("option_key", sa.String(100), nullable=False),
+        sa.Column("feedback_text", sa.Text, nullable=False),
+        sa.Column("prompt_version", sa.String(20)),
+        sa.Column("model_used", sa.String(100)),
+        sa.Column("latency_ms", sa.Integer),
+        sa.Column("tone", sa.String(50)),
+        sa.Column("quality_score", sa.Integer),
+        sa.Column("generated_at", sa.DateTime(timezone=True), nullable=False),
+    )
+    op.create_index("ix_ai_feedback_session_id", "ai_feedback", ["session_id"])
 
     # ── decision_log ────────────────────────────────────────
     op.create_table(

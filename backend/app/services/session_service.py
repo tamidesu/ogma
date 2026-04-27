@@ -1,5 +1,4 @@
 import json
-from datetime import datetime, timezone
 from uuid import UUID
 
 import structlog
@@ -37,8 +36,9 @@ class SessionService:
         state = await engine.build_initial_state(scenario_id, None, db)
 
         sim_session = await session_repo.create(user_id, scenario_id, state, db)
-        # Bind real session ID into state
+        # Bind real session ID into state and persist the corrected snapshot
         state.session_id = sim_session.id
+        await session_repo.update_state(sim_session, state, db)
 
         await self._cache_state(sim_session.id, state)
         logger.info("session_created", session_id=str(sim_session.id), user_id=str(user_id))

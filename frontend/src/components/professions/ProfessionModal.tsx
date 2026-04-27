@@ -69,7 +69,7 @@ export default function ProfessionModal({ profession, onClose, onStart }: Props)
                 src={v.image}
                 alt={profession.name}
                 onError={() => setImgOk(false)}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', filter: v.imageFilter }}
               />
             ) : (
               <div style={{ width: '100%', height: '100%', background: v.gradient }} />
@@ -100,7 +100,7 @@ export default function ProfessionModal({ profession, onClose, onStart }: Props)
                 border: `1px solid ${v.accent}50`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28,
               }}>
-                {profession.icon_key ?? '⭐'}
+                {{ stethoscope: '🩺', code: '💻', scales: '⚖️', chart: '📊' }[profession.icon_key ?? ''] ?? profession.icon_key ?? '⭐'}
               </div>
               <div>
                 <p style={{ fontSize: 11, color: v.accent, fontWeight: 700, margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Кәсіп</p>

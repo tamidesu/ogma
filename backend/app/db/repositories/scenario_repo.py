@@ -2,7 +2,7 @@ from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import joinedload
 
 from app.db.models.profession import Profession
 from app.db.models.scenario import ScenarioDef
@@ -39,6 +39,8 @@ class ScenarioRepository:
 
     async def get_scenario(self, scenario_id: UUID, db: AsyncSession) -> ScenarioDef | None:
         result = await db.execute(
-            select(ScenarioDef).where(ScenarioDef.id == scenario_id)
+            select(ScenarioDef)
+            .where(ScenarioDef.id == scenario_id)
+            .options(joinedload(ScenarioDef.profession))
         )
         return result.scalar_one_or_none()

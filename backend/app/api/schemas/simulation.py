@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 # ── Professions ───────────────────────────────────────────
 
 class ProfessionResponse(BaseModel):
-    id: str
+    id: UUID
     slug: str
     name: str
     description: str | None
@@ -19,7 +19,7 @@ class ProfessionResponse(BaseModel):
 
 
 class ScenarioSummaryResponse(BaseModel):
-    id: str
+    id: UUID
     slug: str
     title: str
     description: str
@@ -52,9 +52,9 @@ class StepInfo(BaseModel):
 
 
 class SessionResponse(BaseModel):
-    session_id: str
+    session_id: UUID
     status: str
-    scenario_id: str
+    scenario_id: UUID
     current_step: StepInfo | None
     metrics: dict[str, float]
     step_count: int
@@ -62,8 +62,8 @@ class SessionResponse(BaseModel):
 
 
 class SessionSummaryResponse(BaseModel):
-    session_id: str
-    scenario_id: str
+    session_id: UUID
+    scenario_id: UUID
     status: str
     final_score: float | None
     started_at: str
@@ -93,7 +93,7 @@ class AIFeedbackResponse(BaseModel):
 
 
 class DecisionResponse(BaseModel):
-    decision_id: str
+    decision_id: UUID
     option_key: str
     effects_applied: list[dict]
     metrics_before: dict[str, float]
@@ -111,7 +111,7 @@ class DecisionResponse(BaseModel):
 # ── History ───────────────────────────────────────────────
 
 class DecisionHistoryItem(BaseModel):
-    id: str
+    id: UUID
     step_key: str
     option_key: str
     metrics_before: dict[str, float]
@@ -125,7 +125,7 @@ class DecisionHistoryItem(BaseModel):
 # ── Progress ──────────────────────────────────────────────
 
 class SkillScoreItem(BaseModel):
-    profession_id: str
+    profession_id: UUID
     skill_key: str
     score: float
 
@@ -141,6 +141,6 @@ class ProgressResponse(BaseModel):
 # ── AI Feedback poll ──────────────────────────────────────
 
 class FeedbackPollResponse(BaseModel):
-    decision_id: str
+    decision_id: UUID
     ready: bool
     feedback: AIFeedbackResponse | None

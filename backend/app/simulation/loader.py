@@ -2,15 +2,14 @@
 ScenarioLoader — fetches ScenarioDef from DB and maps to pure domain models.
 Uses an in-process LRU cache to avoid repeated DB reads within a request.
 """
-import functools
 from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import selectinload, joinedload
 
 from app.core.exceptions import ScenarioNotFoundError
-from app.db.models.scenario import ScenarioDef, StepDef, OptionDef, StepTransition as StepTransitionORM
+from app.db.models.scenario import ScenarioDef, StepDef
 from app.simulation.models.scenario import (
     Condition,
     DecisionOption,
@@ -31,8 +30,9 @@ class ScenarioLoader:
             .options(
                 selectinload(ScenarioDef.steps).selectinload(StepDef.options),
                 selectinload(ScenarioDef.transitions),
-                selectinload(ScenarioDef.profession),
+                joinedload(ScenarioDef.profession),
             )
+            .execution_options(populate_existing=True)
         )
         db_scenario = result.scalar_one_or_none()
         if not db_scenario:
@@ -55,8 +55,9 @@ class ScenarioLoader:
             .options(
                 selectinload(ScenarioDef.steps).selectinload(StepDef.options),
                 selectinload(ScenarioDef.transitions),
-                selectinload(ScenarioDef.profession),
+                joinedload(ScenarioDef.profession),
             )
+            .execution_options(populate_existing=True)
         )
         db_scenario = result.scalar_one_or_none()
         if not db_scenario:

@@ -48,14 +48,18 @@ class AuthService:
         access_token = create_access_token(user.id)
         refresh_token = create_refresh_token(user.id)
 
-        # Store refresh token in Redis
-        redis = await get_redis()
-        from app.config import settings
-        await redis.setex(
-            f"refresh:{str(user.id)}",
-            settings.redis_refresh_token_ttl,
-            refresh_token,
-        )
+        # Store refresh token in Redis (optional)
+        try:
+            redis = await get_redis()
+            if redis:
+                from app.config import settings
+                await redis.setex(
+                    f"refresh:{str(user.id)}",
+                    settings.redis_refresh_token_ttl,
+                    refresh_token,
+                )
+        except Exception:
+            pass  # Redis unavailable — refresh tokens won't be stored
 
         logger.info("user_login", user_id=str(user.id))
         return access_token, refresh_token
@@ -65,22 +69,32 @@ class AuthService:
         user_id = decode_refresh_token(refresh_token)
 
         redis = await get_redis()
-        stored = await redis.get(f"refresh:{str(user_id)}")
-        if stored != refresh_token:
-            raise AuthenticationError("Refresh token is invalid or expired")
+        if redis:
+            stored = await redis.get(f"refresh:{str(user_id)}")
+            if stored != refresh_token:
+                raise AuthenticationError("Refresh token is invalid or expired")
 
         new_access = create_access_token(user_id)
         new_refresh = create_refresh_token(user_id)
 
-        from app.config import settings
-        await redis.setex(
-            f"refresh:{str(user_id)}",
-            settings.redis_refresh_token_ttl,
-            new_refresh,
-        )
+        try:
+            if redis:
+                from app.config import settings
+                await redis.setex(
+                    f"refresh:{str(user_id)}",
+                    settings.redis_refresh_token_ttl,
+                    new_refresh,
+                )
+        except Exception:
+            pass
+
         return new_access, new_refresh
 
     async def logout(self, user_id) -> None:
-        redis = await get_redis()
-        await redis.delete(f"refresh:{str(user_id)}")
+        try:
+            redis = await get_redis()
+            if redis:
+                await redis.delete(f"refresh:{str(user_id)}")
+        except Exception:
+            pass
         logger.info("user_logout", user_id=str(user_id))
