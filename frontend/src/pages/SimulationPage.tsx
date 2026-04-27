@@ -87,7 +87,8 @@ export default function SimulationPage() {
         setSession(s)
         setMetricsBefore(s.metrics)
 
-        const pid = professionId ?? s.scenario_id
+        const pid = s.profession_id ?? professionId
+        if (!pid) return
         try {
           const prof = await professionsApi.get(pid)
           const vis = getVisuals(prof)
@@ -313,60 +314,99 @@ export default function SimulationPage() {
         }} />
 
         {/* Character display */}
-        <div style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
-          {currentChar && (
-            <motion.div
-              key={currentChar.id + currentCharStatus}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: 'spring', damping: 20, stiffness: 200 }}
-            >
-              {/* Status thought bubble */}
+        <div style={{ position: 'relative', zIndex: 2, width: '100%', display: 'flex', justifyContent: 'center' }}>
+          {currentChar && (() => {
+            const photoSrc = currentChar.statusImages?.[currentCharStatus]
+            return (
               <motion.div
-                animate={{ y: [-4, 4, -4] }}
-                transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-                style={{
-                  position: 'absolute', top: -24, right: -20,
-                  padding: '8px 12px', borderRadius: 16,
-                  background: bubble.bg, backdropFilter: 'blur(8px)',
-                  border: `1px solid ${statusCfg.color}40`,
-                  display: 'flex', alignItems: 'center', gap: 6,
-                  fontSize: 20,
-                }}
+                key={currentChar.id + currentCharStatus}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.35 }}
+                style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
               >
-                {bubble.emoji}
-                <span style={{ fontSize: 10, color: statusCfg.color, fontWeight: 700 }}>
-                  {statusCfg.label}
-                </span>
+                {photoSrc ? (
+                  /* Real NPC photo */
+                  <div style={{ position: 'relative' }}>
+                    <motion.img
+                      key={photoSrc}
+                      src={photoSrc}
+                      alt={currentChar.name}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35 }}
+                      style={{
+                        height: 'min(320px, 42vh)', width: 'auto', objectFit: 'contain',
+                        filter: `drop-shadow(0 24px 48px ${statusCfg.color}60)`,
+                      }}
+                    />
+                    {/* Status badge */}
+                    <motion.div
+                      animate={{ y: [-3, 3, -3] }}
+                      transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+                      style={{
+                        position: 'absolute', top: 8, right: -12,
+                        padding: '6px 10px', borderRadius: 12,
+                        background: bubble.bg, backdropFilter: 'blur(8px)',
+                        border: `1px solid ${statusCfg.color}50`,
+                        display: 'flex', alignItems: 'center', gap: 5,
+                      }}
+                    >
+                      <span style={{ fontSize: 16 }}>{bubble.emoji}</span>
+                      <span style={{ fontSize: 10, color: statusCfg.color, fontWeight: 700 }}>
+                        {statusCfg.label}
+                      </span>
+                    </motion.div>
+                  </div>
+                ) : (
+                  /* Fallback emoji avatar */
+                  <div style={{ position: 'relative' }}>
+                    <div style={{
+                      width: 160, height: 160, borderRadius: 40,
+                      background: `linear-gradient(135deg,${profAccent}30,rgba(124,58,237,0.2))`,
+                      border: `3px solid ${statusCfg.color}60`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 80, boxShadow: `0 20px 60px ${profAccent}30, 0 0 40px ${statusCfg.color}20`,
+                      margin: '0 auto',
+                    }}>
+                      {currentChar.avatar}
+                    </div>
+                    <motion.div
+                      animate={{ y: [-3, 3, -3] }}
+                      transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+                      style={{
+                        position: 'absolute', top: -16, right: -20,
+                        padding: '6px 10px', borderRadius: 12,
+                        background: bubble.bg, backdropFilter: 'blur(8px)',
+                        border: `1px solid ${statusCfg.color}50`,
+                        display: 'flex', alignItems: 'center', gap: 5,
+                      }}
+                    >
+                      <span style={{ fontSize: 16 }}>{bubble.emoji}</span>
+                      <span style={{ fontSize: 10, color: statusCfg.color, fontWeight: 700 }}>
+                        {statusCfg.label}
+                      </span>
+                    </motion.div>
+                  </div>
+                )}
+
+                {/* Name & role tag */}
+                <div style={{
+                  marginTop: 10, padding: '5px 16px', borderRadius: 99,
+                  background: 'rgba(13,8,32,0.75)', backdropFilter: 'blur(8px)',
+                  border: `1px solid ${statusCfg.color}30`,
+                  display: 'flex', alignItems: 'center', gap: 8,
+                }}>
+                  <span style={{ fontSize: 14, fontWeight: 800, color: '#f5f0ff' }}>{currentChar.name}</span>
+                  <span style={{ fontSize: 11, color: '#7c6fa8' }}>{currentChar.role}</span>
+                </div>
               </motion.div>
-
-              {/* Large avatar */}
-              <div style={{
-                width: 160, height: 160, borderRadius: 40,
-                background: `linear-gradient(135deg,${profAccent}30,rgba(124,58,237,0.2))`,
-                border: `3px solid ${statusCfg.color}60`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 80, boxShadow: `0 20px 60px ${profAccent}30, 0 0 40px ${statusCfg.color}20`,
-                margin: '0 auto',
-              }}>
-                {currentChar.avatar}
-              </div>
-
-              {/* Name & role */}
-              <div style={{ marginTop: 16 }}>
-                <p style={{ fontSize: 18, fontWeight: 800, color: '#f5f0ff', margin: 0 }}>
-                  {currentChar.name}
-                </p>
-                <p style={{ fontSize: 12, color: '#7c6fa8', margin: '4px 0 0' }}>
-                  {currentChar.role}
-                </p>
-              </div>
-            </motion.div>
-          )}
+            )
+          })()}
 
           {/* Character switcher dots */}
           {characters.length > 1 && (
-            <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 16 }}>
+            <div style={{ position: 'absolute', bottom: -8, left: 0, right: 0, display: 'flex', gap: 8, justifyContent: 'center' }}>
               {characters.map((c, i) => {
                 const st = charStates[c.id]?.status ?? c.initStatus
                 const col = STATUS_CONFIG[st]?.color ?? '#7c6fa8'

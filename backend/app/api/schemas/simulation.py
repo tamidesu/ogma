@@ -55,10 +55,12 @@ class SessionResponse(BaseModel):
     session_id: UUID
     status: str
     scenario_id: UUID
+    profession_id: UUID | None = None
     current_step: StepInfo | None
     metrics: dict[str, float]
     step_count: int
     started_at: str
+    final_score: float | None = None
 
 
 class SessionSummaryResponse(BaseModel):

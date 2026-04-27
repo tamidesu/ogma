@@ -19,6 +19,7 @@ export interface ProfessionCharacter {
   role: string
   avatar: string
   initStatus: CharacterStatus
+  statusImages?: Partial<Record<CharacterStatus, string>>
 }
 
 export interface ProfessionVisuals {
@@ -51,9 +52,23 @@ const MAP: Record<string, ProfessionVisuals> = {
     preview: ['Жедел жағдай диагностикасы', 'Операция жоспарлау', 'Науқасқа хабар беру'],
     avgTime: '15 мин', completions: '2,840', rating: 4.9,
     characters: [
-      { id: 'patient', name: 'Ахмет Бекұлы, 45', role: 'Науқас',               avatar: '🤒', initStatus: 'critical'  },
-      { id: 'nurse',   name: 'Айгүл Нұрова',      role: 'Медбике',              avatar: '👩‍⚕️', initStatus: 'ready'    },
-      { id: 'chief',   name: 'Проф. Сейтқали',    role: 'Кардиология бастығы', avatar: '🧑‍⚕️', initStatus: 'watching' },
+      {
+        id: 'patient', name: 'Дәрігер', role: 'Сіздің кейіпкеріңіз', avatar: '👨‍⚕️', initStatus: 'watching',
+        statusImages: {
+          stable:   '/images/doctor/ok.png',
+          positive: '/images/doctor/like.png',
+          relieved: '/images/doctor/like.png',
+          ready:    '/images/doctor/ok.png',
+          watching: '/images/doctor/thinking.png',
+          active:   '/images/doctor/indignation.png',
+          worried:  '/images/doctor/disapproval.png',
+          panic:    '/images/doctor/rejection.png',
+          critical: '/images/doctor/scary.png',
+          dead:     '/images/doctor/scary.png',
+        },
+      },
+      { id: 'nurse',  name: 'Медбике',       role: 'Медицина персоналы', avatar: '👩‍⚕️', initStatus: 'ready'    },
+      { id: 'chief',  name: 'Проф. Дәрігер', role: 'Кардиология бастығы', avatar: '🧑‍⚕️', initStatus: 'watching' },
     ],
   },
 

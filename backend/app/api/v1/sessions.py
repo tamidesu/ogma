@@ -59,6 +59,7 @@ async def create_session(
         session_id=str(sim_session.id),
         status=sim_session.status,
         scenario_id=str(sim_session.scenario_id),
+        profession_id=scenario.profession_id,
         current_step=StepInfo(
             step_key=current_step.step_key,
             title=current_step.title,
@@ -83,6 +84,7 @@ async def get_session(session_id: UUID, db: DBSession, current_user: CurrentUser
         session_id=str(sim_session.id),
         status=sim_session.status,
         scenario_id=str(sim_session.scenario_id),
+        profession_id=scenario.profession_id,
         current_step=StepInfo(
             step_key=current_step.step_key,
             title=current_step.title,
@@ -93,6 +95,7 @@ async def get_session(session_id: UUID, db: DBSession, current_user: CurrentUser
         metrics=state.metrics.to_dict(),
         step_count=state.step_count,
         started_at=sim_session.started_at.isoformat(),
+        final_score=float(sim_session.final_score) if sim_session.final_score is not None else None,
     ))
 
 

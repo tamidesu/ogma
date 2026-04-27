@@ -84,7 +84,7 @@ class ScenarioLoader:
                 narrative=step_db.narrative,
                 context_data=step_db.context_data or {},
                 step_type=StepType(step_db.step_type),
-                is_terminal=step_db.is_terminal,
+                is_terminal=step_db.is_terminal or step_db.step_type == 'terminal',
                 sort_order=step_db.sort_order,
                 options=options,
             )

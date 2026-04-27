@@ -75,11 +75,11 @@ export interface SessionResponse {
   session_id: string
   status: 'active' | 'paused' | 'completed' | 'abandoned'
   scenario_id: string
+  profession_id: string | null
   current_step: StepInfo | null
   metrics: Record<string, number>
   step_count: number
   started_at: string
-  /** Populated only on completed sessions */
   final_score: number | null
 }
 

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import json; j=json.load\\(open\\('backend/app/agents/images/manifest.json', encoding='utf-8'\\)\\); print\\(f'Valid JSON — {len\\(j[\\\\\"images\\\\\"]\\)} images total'\\)\")",
+      "Read(//c/Users/olzha/.claude/projects/c--Users-olzha-ogma/**)",
+      "Read(//c/Users/olzha/.claude/projects/**)",
+      "Bash(sed -i 's/\"avatar_image_id\": \"doctor._avatars.elena.calm_initial\"/\"avatar_image_id\": \"doctor._avatars.thinking\"/' c:/Users/olzha/ogma/ogma/backend/scripts/briefs/doctor_diagnosis_dilemma.json)",
+      "Bash(sed -i 's/\"avatar_image_id\": \"doctor._avatars.ahmed.alert_firm\"/\"avatar_image_id\": \"doctor._avatars.ok\"/' c:/Users/olzha/ogma/ogma/backend/scripts/briefs/doctor_patient_refuses_treatment.json)",
+      "Bash(sed -i 's/\"avatar_image_id\": \"doctor._avatars.trauma.unconscious\"/\"avatar_image_id\": \"doctor._avatars.scary\"/' c:/Users/olzha/ogma/ogma/backend/scripts/briefs/doctor_emergency_triage.json)",
+      "Bash(python -c ' *)",
+      "Bash(python -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\('node scripts:', list\\(p.get\\('scripts',{}\\).keys\\(\\)\\)\\); print\\('package manager hint:', p.get\\('packageManager','npm'\\)\\)\")",
+      "Bash(npm --version)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\olzha\\.claude\\projects\\c--Users-olzha-ogma"
+    ]
+  }
+}
