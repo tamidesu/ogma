@@ -29,6 +29,12 @@ class SimulationSession(Base, UUIDPrimaryKey):
     status: Mapped[str] = mapped_column(String(30), default="active", nullable=False, index=True)
     current_step_key: Mapped[str] = mapped_column(String(100), nullable=False)
 
+    # Open-world mode columns (migration 0003)
+    mode: Mapped[str] = mapped_column(String(20), default="guided", nullable=False, server_default="'guided'")
+    brief_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("scenario_briefs.id"), nullable=True, index=True
+    )
+
     # Full mutable simulation state — typed via SimSessionState Pydantic model
     state_snapshot: Mapped[dict] = mapped_column(JSONB, default=dict, nullable=False)
     metrics: Mapped[dict] = mapped_column(JSONB, default=dict, nullable=False)

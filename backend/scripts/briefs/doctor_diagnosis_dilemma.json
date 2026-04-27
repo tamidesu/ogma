@@ -1,0 +1,134 @@
+{
+  "profession_slug": "doctor",
+  "slug": "diagnosis_dilemma",
+  "title": "Белгісіз диагноз",
+  "locale": "kk",
+  "difficulty": 3,
+  "estimated_turns": 6,
+  "max_turns": 12,
+
+  "case_file_md": "# Емханалық жазба\n\n**Күні:** 2026-04-27, дүйсенбі, 10:42\n**Дәрігер:** Сіз — терапевт-дәрігер, 2-ші жыл резидент\n**Орны:** Қалалық емхана, амбулаториялық қабылдау\n\n## Науқас\n\n**Аты-жөні:** Елена Бекетова, 45 жас, қызметкер\n**Шағымдар:** Соңғы 2 ай ішінде шаршағыштық, 3 кг салмақ жоғалту, мойынында ұлғайған лимфа түйіні\n\n## Анамнез\n\nНауқас 2 ай бұрын тұмау сияқты ауырғанын айтады. Содан кейін шаршағыштық кетпеді. Дене қызуы периодты түрде көтеріледі (37.4°C-қа дейін). Тәбеті орташа, бірақ салмақ жоғалтуы байқалады. Терісі құрғақ. Түнгі тершеңдік — бар (бірақ науқастың пікірі бойынша «көп емес»).\n\nМойнының оң жағында қозғалмалы, ауыртпайтын лимфа түйін, шамамен 2 см. Көк түйіндер сезілмейді.\n\n## Жалпы талдама\n\nЖалпы қан анализі шектеулі: лейкоциттер 11.2, лимфоциттер 38%, ESR 32 мм/сағ. Биохимия қалыпты. ВИЧ — теріс, гепатит В/С — теріс.\n\n## Контекст\n\nНауқастың екі баласы бар (8 және 12 жас). Ертең маңызды жұмыс сұхбаты бар, ол үшін ұзақ дайындалған. Ол сіздің кабинетте отыр, қолдары жабылған, төмен қарап.\n\n*Ауру тарихы: вирустық инфекция, стресс — болуы мүмкін. Лимфома — болуы мүмкін. Анық емес. Сіздің кезегіңіз.*",
+
+  "initial_world_state": {
+    "metrics": {
+      "patient_stability": 75,
+      "diagnosis_accuracy": 40,
+      "team_trust": 70,
+      "score": 0
+    },
+    "flags": {
+      "biopsy_ordered": false,
+      "biopsy_result_known": false,
+      "patient_informed_diagnosis": false,
+      "specialist_consulted": false,
+      "watchful_waiting_chosen": false,
+      "treatment_started": false,
+      "patient_lost_to_follow_up": false
+    },
+    "time": {
+      "elapsed_min": 0,
+      "current_phase": "initial_consult"
+    },
+    "diagnosis": {
+      "true_diagnosis": "hodgkin_lymphoma_stage_1",
+      "trainee_working_diagnosis": null,
+      "ruled_out": []
+    }
+  },
+
+  "success_criteria_jsonlogic": {
+    "and": [
+      { "==": [ { "var": "flags.biopsy_result_known" }, true ] },
+      { "==": [ { "var": "flags.patient_informed_diagnosis" }, true ] },
+      { "==": [ { "var": "flags.treatment_started" }, true ] },
+      { ">=": [ { "var": "metrics.team_trust" }, 60 ] },
+      { ">=": [ { "var": "metrics.patient_stability" }, 50 ] }
+    ]
+  },
+
+  "failure_criteria_jsonlogic": {
+    "or": [
+      { "==": [ { "var": "flags.patient_lost_to_follow_up" }, true ] },
+      { "<=": [ { "var": "metrics.patient_stability" }, 20 ] },
+      { "<=": [ { "var": "metrics.team_trust" }, 15 ] }
+    ]
+  },
+
+  "timeout_resolution": "Уақыт бітті. Елена кабинеттен анық жоспарсыз шығып кетті. Диагноз дер кезінде қойылмады, әрі қарайғы әрекеттер белгісіз.",
+
+  "npc_definition": {
+    "id": "elena_lymphoma",
+    "display_name": "Елена, 45",
+    "role": "Науқас (лимфомаға күмән)",
+    "backstory": "Елена — мектеп мұғалімі. Ол өзін науқас сезінуді ұнатпайды және жұмысын үзіп қойғысы келмейді. Анасы 50 жасында сүт безі қатерлі ісігінен қайтыс болған, бірақ ол бұл туралы өз бетімен айтпайды — сұраған жағдайда ғана айтады. Ол сізге сенгісі келеді, бірақ медицинадан қорқады.",
+    "personality_traits": {
+      "openness": 55,
+      "conscientiousness": 80,
+      "extraversion": 45,
+      "agreeableness": 65,
+      "neuroticism": 60
+    },
+    "initial_emotion": {
+      "trust": 60,
+      "fear": 50,
+      "anger": 5,
+      "hope": 40
+    },
+    "voice_directives": "Жайлап сөйлейді, көп нақтылау сұрақтарын қояды. Кейде сөзіңізді бөліп: «Бұл маған не дегенді білдіреді?» деп сұрайды. Эмоциялары жасырын — бетінде көрінбеуі мүмкін, бірақ дауысында сезіледі. Дәрігерлік терминдерді естігенде қаймығады.",
+    "memory_seeds": [
+      "Анасы 50 жасында сүт безі қатерлі ісігінен қайтыс болды.",
+      "Ертең маңызды жұмыс сұхбаты бар, оған 6 ай дайындалды.",
+      "Екі баласы бар, кіші 8 жаста, әлі бастауыш сыныпта.",
+      "Соңғы рет дәрігерге 4 жыл бұрын барған."
+    ],
+    "avatar_image_id": "doctor._avatars.elena.calm_initial"
+  },
+
+  "complication_pool": [
+    {
+      "id": "biopsy_delay_lab_overloaded",
+      "spawn_when": { "and": [
+        { "==": [ { "var": "flags.biopsy_ordered" }, true ] },
+        { "==": [ { "var": "flags.biopsy_result_known" }, false ] }
+      ]},
+      "narrative_hook": "Лаборатория артық жүктелген — биопсия нәтижесі 5 күнге кешігеді.",
+      "metric_delta": { "patient_stability": -5 }
+    },
+    {
+      "id": "patient_questions_after_hours",
+      "spawn_when": { "and": [
+        { ">=": [ { "var": "metrics.team_trust" }, 75 ] },
+        { "==": [ { "var": "flags.biopsy_ordered" }, true ] }
+      ]},
+      "narrative_hook": "Елена жұмыс күнінен тыс уақытта сізге қоңырау шалып, нәтижелерді сұрайды.",
+      "metric_delta": {}
+    },
+    {
+      "id": "specialist_disagrees",
+      "spawn_when": { "==": [ { "var": "flags.specialist_consulted" }, true ] },
+      "narrative_hook": "Гематолог сіздің бастапқы пікіріңізбен келіспейді — оның пікірінше, жай вирустық реакция.",
+      "metric_delta": { "diagnosis_accuracy": -10 }
+    },
+    {
+      "id": "patient_googled_symptoms",
+      "spawn_when": { ">=": [ { "var": "time.elapsed_min" }, 30 ] },
+      "narrative_hook": "Елена интернеттен «лимфома» сөзін тауып, қорқып келді.",
+      "metric_delta": { "patient_stability": -10 }
+    }
+  ],
+
+  "knowledge_tags": [
+    "doctor.protocols.diagnosis_workup",
+    "doctor.protocols.breaking_bad_news_spikes",
+    "doctor.ethics.shared_decision_making",
+    "doctor.ethics.informed_consent",
+    "doctor.pharmacology.none"
+  ],
+
+  "initial_suggested_actions": [
+    "Толық анамнез алу — отбасылық тарихты сұрау",
+    "Лимфа түйінін мұқият тексеру",
+    "Биопсияға дереу жолдама беру",
+    "Гематологқа консультацияға жіберу"
+  ]
+}

@@ -9,6 +9,7 @@ import ProfessionsPage from './pages/ProfessionsPage'
 import ScenariosPage from './pages/ScenariosPage'
 import SimulationPage from './pages/SimulationPage'
 import ResultsPage from './pages/ResultsPage'
+import OpenWorldPage from './pages/OpenWorldPage'
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
               path="/professions/:professionId/scenarios"
               element={<Layout><ScenariosPage /></Layout>}
             />
+            {/* Legacy guided mode */}
             <Route
               path="/session/:sessionId"
               element={<Layout><SimulationPage /></Layout>}
@@ -36,6 +38,11 @@ export default function App() {
               path="/session/:sessionId/results"
               element={<Layout><ResultsPage /></Layout>}
             />
+            {/* ── Open-world simulation ── */}
+            {/* Start new session from brief */}
+            <Route path="/play/:briefId" element={<OpenWorldPage />} />
+            {/* Resume existing open-world session */}
+            <Route path="/play/session/:sessionId" element={<OpenWorldPage />} />
 
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />

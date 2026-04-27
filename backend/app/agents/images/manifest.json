@@ -1,0 +1,180 @@
+{
+  "$schema_note": "Curated image library. The VisualDirector loads this once at startup and mirrors entries into the image_assets table. Files referenced under `file` are served at /static/images/<file>. To add an image: drop the file into the directory, add an entry here, restart the API. Re-indexing is automatic.",
+  "$style_guide": "16:9 (1920x1080+), photographic realism, cool teal-and-amber color grading, no overlay text, no logos, no watermarks. Trainee POV or shoulder-of-trainee framing where applicable. Avoid posed stock-photo smiles.",
+  "$batches": {
+    "1_elena_avatars": "Avatars used in the NPCPanel for diagnosis_dilemma. Square crops, head-and-shoulders, neutral background.",
+    "2_diagnosis_dilemma_scenes": "Scene set covering exam_room, consultation_room, imaging_lab — enough to play diagnosis_dilemma end-to-end.",
+    "3_transitions_fallback": "Neutral framings used when no good scene match exists."
+  },
+
+  "images": [
+
+    {
+      "id": "doctor._avatars.elena.calm_initial",
+      "file": "doctor/_avatars/elena_calm_initial.jpg",
+      "profession": "doctor",
+      "scene_category": "_avatar",
+      "mood": "calm",
+      "characters_present": ["elena_lymphoma"],
+      "world_flags_match": ["phase=initial_consult"],
+      "tags": ["portrait", "square", "soft-daylight", "neutral-background", "head-and-shoulders"],
+      "description": "Square portrait of Elena, a 45-year-old woman with light brown hair tied back, plain blouse, plain grey background. Faint cautious half-smile, eye contact with camera. Soft natural daylight from camera-left. Calm but slightly guarded expression."
+    },
+
+    {
+      "id": "doctor._avatars.elena.anxious_waiting",
+      "file": "doctor/_avatars/elena_anxious_waiting.jpg",
+      "profession": "doctor",
+      "scene_category": "_avatar",
+      "mood": "anxious",
+      "characters_present": ["elena_lymphoma"],
+      "world_flags_match": ["biopsy_ordered=true", "biopsy_result_known=false"],
+      "tags": ["portrait", "square", "tension", "looking-away", "lower-lip"],
+      "description": "Same Elena, slightly leaning forward, biting her lower lip very subtly, eyes off-camera to the right (avoiding direct contact). Slightly cooler lighting. Visible mild tension in the brow."
+    },
+
+    {
+      "id": "doctor._avatars.elena.shocked_diagnosed",
+      "file": "doctor/_avatars/elena_shocked_diagnosed.jpg",
+      "profession": "doctor",
+      "scene_category": "_avatar",
+      "mood": "shocked",
+      "characters_present": ["elena_lymphoma"],
+      "world_flags_match": ["patient_informed_diagnosis=true", "treatment_started=false"],
+      "tags": ["portrait", "square", "hand-to-mouth", "glassy-eyes", "stillness"],
+      "description": "Same Elena, hand at her mouth, eyes glistening but composed, not actively crying. Looking just past the camera. Very still — the moment after hearing the news. Lighting softer, slightly desaturated."
+    },
+
+    {
+      "id": "doctor._avatars.elena.composed_planning",
+      "file": "doctor/_avatars/elena_composed_planning.jpg",
+      "profession": "doctor",
+      "scene_category": "_avatar",
+      "mood": "resolved",
+      "characters_present": ["elena_lymphoma"],
+      "world_flags_match": ["treatment_started=true"],
+      "tags": ["portrait", "square", "eye-contact", "calm-strength", "resolve"],
+      "description": "Same Elena, direct eye contact with camera, faint resolved nod implied, shoulders squared. Steadier expression than 'calm_initial' — present, focused. Slightly warmer lighting."
+    },
+
+    {
+      "id": "doctor._avatars.elena.relieved_recovery",
+      "file": "doctor/_avatars/elena_relieved_recovery.jpg",
+      "profession": "doctor",
+      "scene_category": "_avatar",
+      "mood": "relieved",
+      "characters_present": ["elena_lymphoma"],
+      "world_flags_match": ["treatment_started=true", "phase=follow_up"],
+      "tags": ["portrait", "square", "real-smile", "color-in-cheeks", "warmth"],
+      "description": "Same Elena, real and unforced smile, slight color in her cheeks, shoulders dropped. Warm side light. Looks like a person who has come through something."
+    },
+
+    {
+      "id": "doctor.exam_room.patient_anxious",
+      "file": "doctor/exam_room_patient_anxious.jpg",
+      "profession": "doctor",
+      "scene_category": "exam_room",
+      "mood": "tense",
+      "characters_present": ["elena_lymphoma", "trainee_doctor_pov"],
+      "world_flags_match": ["phase=initial_consult"],
+      "tags": ["mid-shot", "exam-table", "soft-daylight", "window-light", "trainee-pov", "laptop-foreground"],
+      "description": "Mid-shot of Elena seated on a paper-covered exam table, hands folded in her lap, looking down. Modern outpatient exam room with a window casting soft daylight from camera-right. The bottom edge of the trainee's laptop is visible in the foreground (over-the-shoulder POV). Pale walls, a blood-pressure cuff on the wall."
+    },
+
+    {
+      "id": "doctor.exam_room.patient_relieved",
+      "file": "doctor/exam_room_patient_relieved.jpg",
+      "profession": "doctor",
+      "scene_category": "exam_room",
+      "mood": "calm",
+      "characters_present": ["elena_lymphoma", "trainee_doctor_pov"],
+      "world_flags_match": ["phase=follow_up"],
+      "tags": ["mid-shot", "exam-table", "eye-contact", "faint-smile", "warm-window-light"],
+      "description": "Same exam room, Elena seated on the exam table looking at the camera (the doctor), faint relieved half-smile, shoulders dropped. Same window light but slightly warmer. Same laptop edge in foreground. The space feels less clinical."
+    },
+
+    {
+      "id": "doctor.exam_room.patient_breaking_news",
+      "file": "doctor/exam_room_patient_breaking_news.jpg",
+      "profession": "doctor",
+      "scene_category": "exam_room",
+      "mood": "grave",
+      "characters_present": ["elena_lymphoma", "nurse_aigul", "trainee_doctor_pov"],
+      "world_flags_match": ["patient_informed_diagnosis=true"],
+      "tags": ["mid-shot", "two-figures", "nurse-present", "tissue-box", "hushed", "soft-fluorescent"],
+      "description": "Trainee POV in the exam room. A female nurse in mid-30s scrubs stands respectfully on the left of the frame, hands clasped in front. Elena is seated opposite, slight blur on her face — the moment immediately after being told. A tissue box is on the desk in the bottom-right foreground. Soft, slightly cooler fluorescent light. Hushed atmosphere."
+    },
+
+    {
+      "id": "doctor.exam_room.patient_tearful",
+      "file": "doctor/exam_room_patient_tearful.jpg",
+      "profession": "doctor",
+      "scene_category": "exam_room",
+      "mood": "grave",
+      "characters_present": ["elena_lymphoma"],
+      "world_flags_match": ["patient_informed_diagnosis=true"],
+      "tags": ["mid-shot", "tissue", "wet-eyes", "composure", "side-light"],
+      "description": "Elena seated on the exam table, hand to mouth, eyes wet but composed (not actively sobbing). A box of tissues on the desk in the foreground, one tissue slightly pulled out. Window light dimmer, blinds half-drawn. Very still composition."
+    },
+
+    {
+      "id": "doctor.consult.specialist_call",
+      "file": "doctor/consult_specialist_call.jpg",
+      "profession": "doctor",
+      "scene_category": "consultation_room",
+      "mood": "active",
+      "characters_present": ["trainee_doctor_pov"],
+      "world_flags_match": ["specialist_consulted=true"],
+      "tags": ["workstation", "phone-to-ear", "monitor-glow", "side-window-light", "ct-on-screen"],
+      "description": "Trainee at a clinic workstation desk holding a desk phone to ear, looking at a CT scan or chart on the monitor. Side-light from a window camera-left. Stack of patient files at the corner of the desk. Clean modern Soviet-era-renovated clinic feel."
+    },
+
+    {
+      "id": "doctor.consult.team_huddle",
+      "file": "doctor/consult_team_huddle.jpg",
+      "profession": "doctor",
+      "scene_category": "consultation_room",
+      "mood": "active",
+      "characters_present": ["chief_seitkali", "nurse_aigul", "trainee_doctor_pov"],
+      "world_flags_match": ["specialist_consulted=true"],
+      "tags": ["huddle", "tablet", "hallway-corner", "scrub-mix", "rapid-coordination"],
+      "description": "A 4-person huddle in a hallway corner near the nurse station. A senior physician with glasses (mid-50s, white coat) gestures at a tablet held by a nurse. Two other clinicians lean in. Mixed scrub colors. Sense of rapid coordination. Wide-ish lens, slight over-the-shoulder framing for the trainee."
+    },
+
+    {
+      "id": "doctor.imaging.ct_chest_findings",
+      "file": "doctor/imaging_ct_chest_findings.jpg",
+      "profession": "doctor",
+      "scene_category": "imaging_lab",
+      "mood": "tense",
+      "characters_present": ["trainee_doctor_pov"],
+      "world_flags_match": ["specialist_consulted=true"],
+      "tags": ["radiology", "ct-axial", "monitor", "dim-light", "reflection"],
+      "description": "Tight shot of a chest CT axial slice on a wide diagnostic monitor in a dim radiology reading room. A faint silhouette of a clinician reflected in the screen. Greyscale dominant, with the warm glow of an adjacent task lamp at the edge of frame."
+    },
+
+    {
+      "id": "doctor.imaging.biopsy_lab",
+      "file": "doctor/imaging_biopsy_lab.jpg",
+      "profession": "doctor",
+      "scene_category": "imaging_lab",
+      "mood": "active",
+      "characters_present": [],
+      "world_flags_match": ["biopsy_ordered=true"],
+      "tags": ["pathology", "microscope", "slides", "gloved-hand", "cool-light"],
+      "description": "A pathology lab bench, mid-shot. A microscope on the right, a slide tray with several slides on the left, a single gloved hand placing one slide onto the microscope stage. Cool blue-white overhead light. No faces. Very clinical, focused composition."
+    },
+
+    {
+      "id": "doctor.transition.neutral",
+      "file": "doctor/transition_neutral.jpg",
+      "profession": "doctor",
+      "scene_category": "transition",
+      "mood": "neutral",
+      "characters_present": [],
+      "world_flags_match": [],
+      "tags": ["fallback", "abstract", "pale-walls", "empty-corridor", "soft"],
+      "description": "Soft, abstract framing — an empty pale-walled hospital corridor with a single light source from the end of the hall. Nothing dramatic. Used as the fallback when no curated scene matches the current world state."
+    }
+  ]
+}

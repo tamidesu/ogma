@@ -1,5 +1,25 @@
-"""Abstract RAG retriever interface."""
+"""Abstract RAG retriever interface + shared dataclasses."""
 from abc import ABC, abstractmethod
+from dataclasses import asdict, dataclass
+from typing import Any
+
+
+@dataclass(frozen=True)
+class RetrievedChunk:
+    """A single ranked chunk returned by a tagged retriever.
+
+    Used by the DomainValidator (and any agent that needs source-cited evidence).
+    `citation` is the human-readable source string; `tag` is the manifest tag
+    so callers can group results by knowledge category.
+    """
+    text: str
+    citation: str
+    tag: str
+    score: float
+    title: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
 
 
 class Retriever(ABC):

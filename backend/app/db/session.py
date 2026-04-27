@@ -48,3 +48,7 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
         except Exception:
             await session.rollback()
             raise
+
+
+# Alias for use in background tasks that need their own session
+AsyncSessionLocal = async_session_factory

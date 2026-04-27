@@ -20,18 +20,40 @@ async def lifespan(app: FastAPI):
     logger.info("startup", env=settings.app_env)
     await init_db()
 
-    # Lazy import to avoid circular deps at module load
     from app.db.redis import init_redis, close_redis
     await init_redis()
 
-    # Pre-warm BM25 RAG indices so first request doesn't pay the load cost
     if settings.rag_enabled:
         try:
             from app.ai.rag.bm25_retriever import get_retriever
-            get_retriever()  # Builds and caches all profession indices
+            get_retriever()
             logger.info("rag_warmed")
         except Exception as e:
             logger.warning("rag_warmup_failed", error=str(e))
+
+        try:
+            from app.ai.rag.tagged_retriever import get_tagged_retriever
+            r = get_tagged_retriever()
+            logger.info("tagged_rag_warmed", ready=r.is_ready())
+        except Exception as e:
+            logger.warning("tagged_rag_warmup_failed", error=str(e))
+
+    try:
+        from app.agents.image_library import get_library
+        lib = get_library()
+        logger.info("image_library_warmed", loaded=lib.has_loaded())
+    except Exception as e:
+        logger.warning("image_library_warmup_failed", error=str(e))
+
+    try:
+        from pathlib import Path
+        from fastapi.staticfiles import StaticFiles
+        images_dir = Path(__file__).parent / "agents" / "images"
+        if images_dir.exists():
+            app.mount("/static/images", StaticFiles(directory=str(images_dir)), name="images")
+            logger.info("static_images_mounted", path=str(images_dir))
+    except Exception as e:
+        logger.warning("static_images_mount_failed", error=str(e))
 
     yield
 
@@ -51,7 +73,6 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# ── Middleware ────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.app_cors_origins,
@@ -62,7 +83,6 @@ app.add_middleware(
 app.add_middleware(RateLimitMiddleware)
 
 
-# ── Global exception handler ──────────────────────────────
 @app.exception_handler(ProfSimError)
 async def profsim_exception_handler(request: Request, exc: ProfSimError):
     http_exc = domain_exception_to_http(exc)
@@ -70,7 +90,10 @@ async def profsim_exception_handler(request: Request, exc: ProfSimError):
         status_code=http_exc.status_code,
         content={
             "data": None,
-            "meta": {"request_id": request.state.request_id if hasattr(request.state, "request_id") else None},
+            "meta": {
+                "request_id": request.state.request_id
+                if hasattr(request.state, "request_id") else None
+            },
             "errors": http_exc.detail,
         },
     )
@@ -89,7 +112,6 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
     )
 
 
-# ── Routers (registered after models are importable) ─────
 from app.api.v1 import router as v1_router  # noqa: E402
 app.include_router(v1_router, prefix="/api/v1")
 
